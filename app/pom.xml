@@ -138,6 +138,7 @@
                                 <!-- We are including a more recent version of JNA in our project -->
                                 <exclude>WEB-INF/lib/jna-3.0.9.jar</exclude>
                                 <exclude>WEB-INF/web.xml</exclude>
+                                <exclude>WEB-INF/classes/settings-mysql.xml</exclude>
                                 <exclude>/IrisPages/</exclude>
                             </excludes>
                         </overlay>

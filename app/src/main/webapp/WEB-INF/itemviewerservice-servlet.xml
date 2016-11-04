@@ -26,6 +26,5 @@
             <value>.jsp</value>
         </property>
     </bean>
-    <bean id="contentUpdater" class="org.smarterbalanced.itemviewerservice.app.Services.ContentPackageFetcher" />
 
 </beans>

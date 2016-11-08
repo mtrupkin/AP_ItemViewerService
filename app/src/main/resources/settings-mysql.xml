@@ -18,7 +18,7 @@
 	<entry key="tds.itemPreview.passageLayout"></entry>
 	<entry key="tds.itemPreview.configCache.minutes">0</entry>
 	<entry key="tds.itemPreview.configCache.id"></entry>
-	<entry key="iris.ContentPath">/content</entry>
+	<entry key="iris.ContentPath">/home/tomcay7/content/</entry>
 	<!-- URL for the Dictionary API used for the Dictionary and Thesaurus accommodations -->
 	<entry key="iris.DictionaryUrl">http://itemviewerservice.cass.oregonstate.edu/Dictionary/</entry>
 	<!-- End Item Preview Settings -->

@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
@@ -61,15 +62,12 @@ public class SettingsReader {
    */
   public static String readIrisContentPath() throws IOException, ParserConfigurationException,
           URISyntaxException, XPathExpressionException, SAXException {
-    URL resource = SettingsReader.class.getResource("/settings-mysql.xml");
-    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder builder = factory.newDocumentBuilder();
-    Document doc = builder.parse(resource.toURI().toString());
-    XPathFactory pathFactory = XPathFactory.newInstance();
-    XPath path = pathFactory.newXPath();
-    XPathExpression contentPathExpr = path.compile("//entry[@key=\"iris.ContentPath\"]");
-    NodeList nodeList = (NodeList) contentPathExpr.evaluate(doc, XPathConstants.NODESET);
-    return nodeList.item(0).getTextContent();
-  }
+      URL resource = SettingsReader.class.getResource("/settings-mysql.xml");
+      InputStream in = new FileInputStream(resource.getPath());
+      Properties props = new Properties();
+      props.loadFromXML(in);
+      String contentPath = props.getProperty("iris.ContentPath");
+      return contentPath;
+    }
 
 }

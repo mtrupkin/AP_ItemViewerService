@@ -33,13 +33,6 @@ class ProvidersDiagnostic extends BaseDiagnostic {
 
   private static final Logger logger = LoggerFactory.getLogger(ProvidersDiagnostic.class);
 
-  @XmlElement(name = "S3-connection")
-  private String s3connection = null;
-
-  @XmlElementWrapper(name = "content-packages")
-  @XmlElement(name = "content-package")
-  private List<String> contentPackages = null;
-
   @XmlElement(name = "Itemviewerservice-API-HTTP-status")
   private Integer irisStatus = null;
 
@@ -80,57 +73,10 @@ class ProvidersDiagnostic extends BaseDiagnostic {
    */
   void runDiagnostics() {
     String baseUrl = this.baseUrl;
-    validateS3();
     validateIris(baseUrl);
     validateBlackbox(baseUrl);
     validateWordListHandler(baseUrl);
     generateStatus();
-  }
-
-  private void validateS3() {
-    AmazonS3 s3Client = new AmazonS3Client();
-    String contentBucket = SettingsReader.get("S3bucket");
-    String region = SettingsReader.get("S3region");
-    s3Client.setRegion(RegionUtils.getRegion(region));
-    if ((contentBucket == null) || region == null) {
-      addError("Configuration errors are preventing the diagnostic tool from connecting"
-              + " to the Amazon S3 API.");
-      logger.error("Configuration errors are preventing the diagnostic tool from connection"
-              + " to the Amazon S3 API.");
-      return;
-    }
-
-    try {
-      ObjectListing listing = s3Client.listObjects(contentBucket);
-      List<S3ObjectSummary> summaries = listing.getObjectSummaries();
-
-      if (!s3Client.doesBucketExist(contentBucket)) {
-        addError("Unable to locate the configured Amazon S3 bucket.");
-        logger.error("Unable to locate the configured Amazon S3 bucket.");
-        return;
-      } else {
-        this.s3connection = "Connected to Amazon S3.";
-      }
-      if (summaries.size() > 0) {
-        this.contentPackages = new ArrayList<>();
-        for (S3ObjectSummary summary : summaries) {
-          this.contentPackages.add(summary.getKey());
-        }
-      } else {
-        addError("The Amazon S3 does not contain any content packages.");
-        logger.warn("The Amazon S3 does not contain any content packages.");
-      }
-    } catch (AmazonServiceException e) {
-      addError("Request rejected by Amazon S3. Error Message: "
-              + e.getMessage());
-      logger.error("Request rejected by Amazon S3. Error Message: "
-              + e.getMessage());
-    } catch (AmazonClientException e) {
-      addError("Internal error connecting to Amazon S3."
-              + "Error message: " + e.getMessage());
-      logger.error("Internal error connecting to Amazon S3."
-              + "Error message: " + e.getMessage());
-    }
   }
 
   private Integer getHttpStatus(URL url) throws IOException {
@@ -201,42 +147,6 @@ class ProvidersDiagnostic extends BaseDiagnostic {
               + "the item viewer service depends on. Please review the system logs.");
       logger.error("Unable to connect to the word list handler API. Exception: " + e.getMessage());
     }
-  }
-
-  /**
-   * Gets s3 connection.
-   *
-   * @return the s3 connection
-   */
-  public String getS3connection() {
-    return s3connection;
-  }
-
-  /**
-   * Sets s3 connection.
-   *
-   * @param s3connection the s3 connection
-   */
-  public void setS3connection(String s3connection) {
-    this.s3connection = s3connection;
-  }
-
-  /**
-   * Gets content packages.
-   *
-   * @return the content packages
-   */
-  public List<String> getContentPackages() {
-    return contentPackages;
-  }
-
-  /**
-   * Sets content packages.
-   *
-   * @param contentPackages the content packages
-   */
-  public void setContentPackages(List<String> contentPackages) {
-    this.contentPackages = contentPackages;
   }
 
   /**

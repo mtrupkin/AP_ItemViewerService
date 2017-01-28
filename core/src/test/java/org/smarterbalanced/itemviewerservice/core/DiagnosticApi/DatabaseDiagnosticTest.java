@@ -13,26 +13,12 @@ public class DatabaseDiagnosticTest {
 
   private DatabaseDiagnostic databaseDiagnostic;
   private String readOnlyDirectoryPath;
-  private File readOnlyDirectory;
 
   @Before
   public void setup() {
-    databaseDiagnostic = new DatabaseDiagnostic();
     String testContentPath = DatabaseDiagnosticTest.class.getResource("/testContent").getFile();
-    databaseDiagnostic.setContentPath(testContentPath);
+    databaseDiagnostic = new DatabaseDiagnostic(testContentPath);
     readOnlyDirectoryPath = testContentPath + "/readOnly";
-    readOnlyDirectory = new File(readOnlyDirectoryPath);
-  }
-
-  @Test
-  public void testDbWrite() {
-    databaseDiagnostic.dbWriteDiagnostics();
-    databaseDiagnostic.generateStatus();
-    assertEquals((Integer)4, databaseDiagnostic.getStatusRating());
-    assertEquals(databaseDiagnostic.getStatusText(), BaseDiagnostic.convertToStatusText(4));
-    assertTrue(databaseDiagnostic.getContentWriteable());
-    assertNotEquals(databaseDiagnostic.getCreateExampleFile(), null);
-    assertNotEquals(databaseDiagnostic.getRemoveExampleFile(), null);
   }
 
   @Test
@@ -41,13 +27,12 @@ public class DatabaseDiagnosticTest {
     assertEquals((Integer)4, databaseDiagnostic.getStatusRating());
     assertEquals(BaseDiagnostic.convertToStatusText(4), databaseDiagnostic.getStatusText());
     assertTrue(databaseDiagnostic.getContentReadable());
-    assertTrue(databaseDiagnostic.getDbExists());
+    assertTrue(databaseDiagnostic.getContentExists());
   }
 
   @Test
   public void testNoContentDirectory() {
-    DatabaseDiagnostic invalidDatabaseDiagnostic = new DatabaseDiagnostic();
-    invalidDatabaseDiagnostic.setContentPath(readOnlyDirectoryPath + "/someInvalidPathThatDoesNotExist");
+    DatabaseDiagnostic invalidDatabaseDiagnostic = new DatabaseDiagnostic(readOnlyDirectoryPath + "/someInvalidPathThatDoesNotExist");
     invalidDatabaseDiagnostic.dbReadDiagnostics();
     invalidDatabaseDiagnostic.dbWriteDiagnostics();
     invalidDatabaseDiagnostic.generateStatus();

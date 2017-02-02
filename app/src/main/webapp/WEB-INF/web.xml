@@ -70,6 +70,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>itemviewerservice</servlet-name>
+        <url-pattern>/statusLocal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>itemviewerservice</servlet-name>
         <url-pattern>/reload</url-pattern>
     </servlet-mapping>
     <servlet>

@@ -1,7 +1,6 @@
 package org.smarterbalanced.itemviewerservice.app.Controllers;
 
-import org.smarterbalanced.itemviewerservice.core.DiagnosticApi.DiagnosticApi;
-import org.smarterbalanced.itemviewerservice.core.DiagnosticApi.DiagnosticXmlWriter;
+import org.smarterbalanced.itemviewerservice.core.DiagnosticApi.DiagnosticManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,13 +11,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static org.smarterbalanced.itemviewerservice.core.DiagnosticApi.DiagnosticManager.localDiagnosticStatus;
+
 /**
  * The type Diagnostic api controller.
  */
 @Controller
 public class DiagnosticApiController {
 
-
+  /**
+   * Diagnostics response entity.
+   *
+   * @param level   Diagnostic level
+   * @param request http request
+   * @return Diagnostic results XML
+   */
+  @ResponseBody
+  @RequestMapping(value = "/statusLocal",
+          method = RequestMethod.GET,
+          produces = "text/xml; charset=utf-8")
+  public ResponseEntity diagnostics(
+          @RequestParam(value = "level", required = false, defaultValue = "0") Integer level,
+          HttpServletRequest request) {
+    String response;
+    try {
+      StringBuffer url = request.getRequestURL();
+      String uri = request.getRequestURI();
+      String contextPath = request.getContextPath();
+      String baseUrl = url.substring(0, url.length() - uri.length() + contextPath.length());
+      response = localDiagnosticStatus(level, baseUrl);
+    } catch (Exception e) {
+      return new ResponseEntity<>("500 internal Server error", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
 
   /**
    * Diagnostics response entity.
@@ -31,19 +57,15 @@ public class DiagnosticApiController {
   @RequestMapping(value = "/status",
           method = RequestMethod.GET,
           produces = "text/xml; charset=utf-8")
-  public ResponseEntity diagnostics(
+  public ResponseEntity globalDiagnostics(
           @RequestParam(value = "level", required = false, defaultValue = "0") Integer level,
           HttpServletRequest request) {
-    String response;
+    String response = null;
+    if(level == null) {
+      level = 0;
+    }
     try {
-      StringBuffer url = request.getRequestURL();
-      String uri = request.getRequestURI();
-      String contextPath = request.getContextPath();
-      String baseUrl = url.substring(0, url.length() - uri.length() + contextPath.length());
-      DiagnosticApi diagnostics = new DiagnosticApi(level, baseUrl);
-      diagnostics.runDiagnostics();
-      DiagnosticXmlWriter xmlWriter = new DiagnosticXmlWriter();
-      response = xmlWriter.generateDiagnosticXml(diagnostics);
+      response = DiagnosticManager.diagnosticStatuses(level);
     } catch (Exception e) {
       return new ResponseEntity<>("500 internal Server error", HttpStatus.INTERNAL_SERVER_ERROR);
     }

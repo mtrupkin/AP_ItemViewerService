@@ -38,4 +38,7 @@
 	<entry key="EncryptionKey">${tds.iris.EncryptionKey}</entry>
 	
 	<!-- End BlackBox Settings -->
+	<!-- Item Viewer Settings -->
+	<entry key="AwsRegion">us-west-2</entry>
+	<entry key="AwsClusterName">ItemViewerService-dev</entry>
 </properties>

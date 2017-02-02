@@ -1,15 +1,7 @@
 package org.smarterbalanced.itemviewerservice.core.DiagnosticApi;
 
-import com.amazonaws.AmazonClientException;
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.regions.RegionUtils;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectListing;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.smarterbalanced.itemviewerservice.dal.Config.SettingsReader;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

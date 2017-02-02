@@ -71,7 +71,7 @@ public class DiagnosticApi extends BaseDiagnostic {
             "DiagnosticApi class must be instantiated with arguments.");
   }
 
-  private String generateTimestamp() {
+  public static String generateTimestamp() {
     SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
     time.setTimeZone(TimeZone.getTimeZone("UTC"));
     return time.format(new Date());

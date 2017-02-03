@@ -124,7 +124,7 @@ public class DiagnosticManager {
     DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
     for (String ip: instanceIPs) {
       CloseableHttpClient httpclient = HttpClients.createDefault();
-      HttpGet get = new HttpGet("http://" + ip + "/status?level=" + level.toString());
+      HttpGet get = new HttpGet("http://" + ip + "/statusLocal?level=" + level.toString());
       CloseableHttpResponse response = httpclient.execute(get);
       try {
         Integer status = response.getStatusLine().getStatusCode();

@@ -4,6 +4,8 @@ import org.w3c.dom.Document;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
@@ -21,8 +23,8 @@ public class ClusterStatuses {
   @XmlAttribute(name = "time")
   private String time;
 
-  @XmlElement
-  List<DiagnosticApi> clusterStatuses;
+  @XmlElement(name = "status")
+  private List<DiagnosticApi> clusterStatuses;
 
   /* DO NOT REMOVE
      This empty constructor is used by the xml serializer.

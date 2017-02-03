@@ -87,7 +87,6 @@ public class DiagnosticApi extends BaseDiagnostic {
         this.providersDiagnostic = new ProvidersDiagnostic(this.baseUrl);
         this.providersDiagnostic.runDiagnostics();
         this.databaseDiagnostic = new DatabaseDiagnostic();
-        this.databaseDiagnostic.dbWriteDiagnostics();
         this.databaseDiagnostic.dbReadDiagnostics();
         this.configurationDiagnostic = new ConfigurationDiagnostic();
         this.configurationDiagnostic.runDiagnostics();
@@ -96,7 +95,6 @@ public class DiagnosticApi extends BaseDiagnostic {
         break;
       case 4:
         this.databaseDiagnostic = new DatabaseDiagnostic();
-        this.databaseDiagnostic.dbWriteDiagnostics();
         this.databaseDiagnostic.dbReadDiagnostics();
         this.configurationDiagnostic = new ConfigurationDiagnostic();
         this.configurationDiagnostic.runDiagnostics();

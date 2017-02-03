@@ -102,41 +102,6 @@ class DatabaseDiagnostic extends BaseDiagnostic {
   }
 
   /**
-   * Diagnostic tests to determine if the content directory exists, is writable, and
-   * to create and remove files from the content directory.
-   */
-  void dbWriteDiagnostics() {
-    if (this.contentPath == null) {
-      return;
-    }
-
-    //Validate the context folder exists
-    try {
-      File dir = new File(this.contentPath);
-
-      if (!dir.exists()) {
-        this.contentExists = false;
-        addError("No content items");
-        logger.error("The content directory specified in settings-mysql.xml does not exist.");
-        return;
-      } else {
-        this.contentExists = true;
-      }
-
-      if (!dir.isDirectory()) {
-        addError("No content items");
-        logger.error("The content directory specified in settings-mysql.xml "
-                + "is not a directory.");
-      }
-    } catch (Exception e) {
-      addError("No content items");
-      logger.error("The content path specified in settings-mysql.xml is invalid.");
-      return;
-    }
-
-  }
-
-  /**
    * Gets db exists.
    *
    * @return the db exists

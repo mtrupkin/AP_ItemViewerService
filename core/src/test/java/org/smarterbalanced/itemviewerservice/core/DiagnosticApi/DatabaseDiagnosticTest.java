@@ -34,7 +34,6 @@ public class DatabaseDiagnosticTest {
   public void testNoContentDirectory() {
     DatabaseDiagnostic invalidDatabaseDiagnostic = new DatabaseDiagnostic(readOnlyDirectoryPath + "/someInvalidPathThatDoesNotExist");
     invalidDatabaseDiagnostic.dbReadDiagnostics();
-    invalidDatabaseDiagnostic.dbWriteDiagnostics();
     invalidDatabaseDiagnostic.generateStatus();
     assertEquals((Integer)0, invalidDatabaseDiagnostic.getStatusRating());
     assertEquals(BaseDiagnostic.convertToStatusText(0), invalidDatabaseDiagnostic.getStatusText());

@@ -18,6 +18,13 @@ public class FileSystemInfo {
   private Float percentFreeSpace;
 
   /**
+   * The empty constructor only exsists for the java XML serializer
+   */
+  public FileSystemInfo() {
+    //This space intentionally left blank
+  }
+
+  /**
    * Instantiates a new File system info object.
    *
    * @param fileSystem An OSHI file system object

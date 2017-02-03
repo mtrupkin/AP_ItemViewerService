@@ -39,6 +39,9 @@ class ConfigurationDiagnostic extends BaseDiagnostic {
    * Validate the iris content path and application properties.
    */
   void runDiagnostics() {
+    if(this.errors == null) {
+      this.errors = new ArrayList<>();
+    }
     validateContentPath();
     generateStatus();
   }
@@ -57,6 +60,9 @@ class ConfigurationDiagnostic extends BaseDiagnostic {
       addError("Unable to load settings file to validate settings");
       logger.error("Unable to generate URI required to load the settings-mysql.xml. Reason: "
               + e.getMessage());
+    } catch (Exception e) {
+      addError("Unable to validate configuration.");
+      logger.error(e.getMessage());
     }
 
   }

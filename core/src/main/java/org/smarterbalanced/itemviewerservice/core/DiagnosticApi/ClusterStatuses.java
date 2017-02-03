@@ -3,6 +3,7 @@ package org.smarterbalanced.itemviewerservice.core.DiagnosticApi;
 import org.w3c.dom.Document;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
@@ -20,7 +21,7 @@ public class ClusterStatuses {
   @XmlAttribute(name = "time")
   private String time;
 
-  @XmlList
+  @XmlElement
   List<DiagnosticApi> clusterStatuses;
 
   /* DO NOT REMOVE

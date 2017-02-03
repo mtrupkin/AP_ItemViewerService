@@ -66,9 +66,7 @@ public class DiagnosticApi extends BaseDiagnostic {
    * @throws UnsupportedOperationException The empty constructor only exists for the XML serializer.
    */
   //This empty constructor is required for the Xml serializer
-  public DiagnosticApi() throws UnsupportedOperationException {
-    throw new UnsupportedOperationException(
-            "DiagnosticApi class must be instantiated with arguments.");
+  public DiagnosticApi() {
   }
 
   public static String generateTimestamp() {

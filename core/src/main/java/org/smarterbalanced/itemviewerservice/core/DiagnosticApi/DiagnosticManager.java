@@ -39,6 +39,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -152,7 +153,7 @@ public class DiagnosticManager {
     return statuses;
   }
 
-  private static List<DiagnosticApi> deserializeDiagnosticXml(List<Document> xmlDocs) throws Exception {
+  private static List<DiagnosticApi> deserializeDiagnosticXml(List<Document> xmlDocs) throws JAXBException {
     List<DiagnosticApi> diagnosticResults = new LinkedList<>();
     JAXBContext jc = JAXBContext.newInstance(DiagnosticApi.class);
     Unmarshaller unmarshaller = jc.createUnmarshaller();
@@ -165,7 +166,7 @@ public class DiagnosticManager {
   }
 
 
-  public static String diagnosticStatuses(Integer level) throws Exception {
+  public static String diagnosticStatuses(Integer level) throws JAXBException, IOException, ParserConfigurationException {
     if(level > 5) {
       level = 5;
     }
@@ -181,26 +182,30 @@ public class DiagnosticManager {
       in.close();
       awsRegion = props.getProperty("AwsRegion");
       awsCluster = props.getProperty("AwsClusterName");
-    } catch (Exception e) {
-      logger.error("Unable to read Aws information from settings. " + e.getMessage());
+    } catch (IOException e) {
+      logger.error("Unable to load settings. " + e.getMessage());
       throw e;
     }
 
     List<String> instanceIds = getEc2InstanceIds(awsCluster, awsRegion);
     List<String> instanceIPs = getEc2InstanceIPs(instanceIds, awsRegion);
-
-    List<Document> docs = getStatuses(instanceIPs, level);
+    List<Document> docs;
+    try {
+      docs = getStatuses(instanceIPs, level);
+    } catch (ParserConfigurationException e) {
+      logger.error(e.getMessage());
+      throw e;
+    }
     Integer statusLevel = 0;
-    for(Document doc : docs) {
-      //Root element should have the status rating on it.
-      Element el = doc.getDocumentElement();
-      Integer elementStatus = Integer.parseInt(el.getAttribute("statusRating"));
+    List<DiagnosticApi> statuses = deserializeDiagnosticXml(docs);
+
+    //Read the status level for each cluster. Set the overall status level to the lowest status level.
+    for(DiagnosticApi api : statuses) {
+      Integer elementStatus = api.getStatusRating();
       if(elementStatus < 5) {
         statusLevel = (statusLevel < elementStatus) ? statusLevel : elementStatus;
       }
     }
-
-    List<DiagnosticApi> statuses = deserializeDiagnosticXml(docs);
 
     ClusterStatuses clusterStatuses = new ClusterStatuses(statusLevel, statuses);
 

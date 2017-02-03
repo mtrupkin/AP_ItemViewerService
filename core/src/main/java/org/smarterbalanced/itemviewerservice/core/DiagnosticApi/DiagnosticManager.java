@@ -15,9 +15,11 @@ import com.amazonaws.services.ecs.model.DescribeContainerInstancesRequest;
 import com.amazonaws.services.ecs.model.DescribeContainerInstancesResult;
 import com.amazonaws.services.ecs.model.ListContainerInstancesRequest;
 import com.amazonaws.services.ecs.model.ListContainerInstancesResult;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -27,6 +29,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -118,9 +121,10 @@ public class DiagnosticManager {
     return instanceIPs;
   }
 
-  public static List<Document> getStatuses(List<String> instanceIPs, Integer level) throws IOException,
+  public static Pair<List<DiagnosticApi>, List<String>> getStatuses(List<String> instanceIPs, Integer level) throws IOException,
           ParserConfigurationException {
-    List<Document> statuses = new LinkedList<>();
+    List<DiagnosticApi> statuses = new LinkedList<>();
+    List<String> failures = new LinkedList<>();
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
     for (String ip: instanceIPs) {
@@ -134,15 +138,17 @@ public class DiagnosticManager {
           InputStream contentStream = entity.getContent();
           Document xml = documentBuilder.parse(contentStream);
           contentStream.close();
-          statuses.add(xml);
+          statuses.add(deserializeDiagnosticXml(xml));
           EntityUtils.consume(entity);
         } else {
           //The item viewer service is not running properly on this instance.
-          logger.info("Diagnostics report the instance with IP: " + ip
+          logger.warn("Diagnostics report the instance with IP: " + ip
                   + " is returning a non 200 status code. Code: " + status.toString());
 
-          //TODO: add a failure on the final status
+          failures.add("HTTP status failure for IP: " + ip + " Status Code: " + status.toString());
         }
+      } catch (JAXBException e) {
+        logger.warn("Diagnostic API at " + ip + " returned invalid XML");
       } catch (SAXException e) {
         logger.warn("Unable to deserialize XML from item viewer service diagnostics");
       }
@@ -150,30 +156,33 @@ public class DiagnosticManager {
         response.close();
       }
     }
-    return statuses;
+
+    return new ImmutablePair<>(statuses, failures);
   }
 
-  private static List<DiagnosticApi> deserializeDiagnosticXml(List<Document> xmlDocs) throws JAXBException {
-    List<DiagnosticApi> diagnosticResults = new LinkedList<>();
+  private static DiagnosticApi deserializeDiagnosticXml(Document xml) throws JAXBException {
     JAXBContext jc = JAXBContext.newInstance(DiagnosticApi.class);
     Unmarshaller unmarshaller = jc.createUnmarshaller();
-    for (Document doc : xmlDocs) {
-      DiagnosticApi api = (DiagnosticApi) unmarshaller.unmarshal(doc);
-      diagnosticResults.add(api);
-    }
+    DiagnosticApi diagnosticResult = (DiagnosticApi) unmarshaller.unmarshal(xml);
 
-    return diagnosticResults;
+    return diagnosticResult;
   }
 
 
   public static String diagnosticStatuses(Integer level) throws JAXBException, IOException, ParserConfigurationException {
-    if(level > 5) {
-      level = 5;
-    }
+    List<DiagnosticApi> statuses;
     URL resource = DiagnosticManager.class.getResource("/settings-mysql.xml");
     String awsRegion;
     String awsCluster;
-    String response = null;
+    String response;
+    //Final status level we will report
+    Integer statusLevel = 5;
+
+    //Maximum supported diagnostic level is 5
+    if(level > 5) {
+      level = 5;
+    }
+
     //Get the Aws region and cluster from the settings.
     try {
       InputStream in = new FileInputStream(resource.getPath());
@@ -189,15 +198,18 @@ public class DiagnosticManager {
 
     List<String> instanceIds = getEc2InstanceIds(awsCluster, awsRegion);
     List<String> instanceIPs = getEc2InstanceIPs(instanceIds, awsRegion);
-    List<Document> docs;
-    try {
-      docs = getStatuses(instanceIPs, level);
-    } catch (ParserConfigurationException e) {
-      logger.error(e.getMessage());
-      throw e;
+
+    Pair<List<DiagnosticApi>, List<String>>diagnosticStatuses = getStatuses(instanceIPs, level);
+    statuses = diagnosticStatuses.getLeft();
+    List<String> errors = diagnosticStatuses.getRight();
+    //If there were errors then degrade the status because some instances are returning non 200 statuses.
+    if(!errors.isEmpty()){
+      statusLevel = 2;
+      //If all instances are reporting a non 200 status code set the status to failing
+      if(errors.size() == instanceIPs.size()) {
+        statusLevel = 0;
+      }
     }
-    Integer statusLevel = 0;
-    List<DiagnosticApi> statuses = deserializeDiagnosticXml(docs);
 
     //Read the status level for each cluster. Set the overall status level to the lowest status level.
     for(DiagnosticApi api : statuses) {
@@ -222,6 +234,5 @@ public class DiagnosticManager {
     }
 
     return response;
-
   }
 }

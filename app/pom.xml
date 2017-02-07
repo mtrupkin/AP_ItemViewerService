@@ -9,6 +9,15 @@
 
     <name>itemviewerservice.app</name>
 
+    <!-- Artifactory for the Smarter Balanced Iris -->
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>airdev-releases</name>
+            <url>https://airdev.artifactoryonline.com/airdev/libs-releases-local</url>
+        </repository>
+    </repositories>
+
     <!-- Version variables -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

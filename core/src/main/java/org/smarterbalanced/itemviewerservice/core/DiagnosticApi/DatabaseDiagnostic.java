@@ -46,6 +46,11 @@ class DatabaseDiagnostic extends BaseDiagnostic {
     }
   }
 
+  /**
+   * Constructs a new database diagnostic to use the provided content path instead of the content
+   * path specified in the settings.
+   * @param contentPath Local content path to use
+   */
   DatabaseDiagnostic(String contentPath) {
     this.contentPath = contentPath;
   }

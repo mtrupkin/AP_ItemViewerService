@@ -69,6 +69,10 @@ public class DiagnosticApi extends BaseDiagnostic {
   public DiagnosticApi() {
   }
 
+  /**
+   * Creates a UTC timestamp with RFC 3339 format for the current time.
+   * @return Current UTC time in RFC 3339 format.
+   */
   public static String generateTimestamp() {
     SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
     time.setTimeZone(TimeZone.getTimeZone("UTC"));

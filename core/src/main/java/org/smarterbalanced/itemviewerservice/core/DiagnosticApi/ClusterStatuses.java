@@ -1,12 +1,13 @@
 package org.smarterbalanced.itemviewerservice.core.DiagnosticApi;
 
+import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 
 /**
- * Represents the diagnostic status of all instances of the Item Viewer Service in an AWS ECS cluster.
+ * Represents the diagnostic status of all instances of the Item Viewer Service in an AWS ECS
+ * cluster.
  */
 @XmlRootElement(name = "status")
 public class ClusterStatuses {

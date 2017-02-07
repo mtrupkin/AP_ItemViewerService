@@ -59,13 +59,12 @@ public class SettingsReader {
    * @throws URISyntaxException           uri syntax exception
    */
   public static String readIrisContentPath() throws IOException, URISyntaxException {
-      URL resource = SettingsReader.class.getResource("/settings-mysql.xml");
-      InputStream in = new FileInputStream(resource.getPath());
-      Properties props = new Properties();
-      props.loadFromXML(in);
-      in.close();
-      String contentPath = props.getProperty("iris.ContentPath");
-      return contentPath;
-    }
-
+    URL resource = SettingsReader.class.getResource("/settings-mysql.xml");
+    InputStream in = new FileInputStream(resource.getPath());
+    Properties props = new Properties();
+    props.loadFromXML(in);
+    in.close();
+    String contentPath = props.getProperty("iris.ContentPath");
+    return contentPath;
+  }
 }

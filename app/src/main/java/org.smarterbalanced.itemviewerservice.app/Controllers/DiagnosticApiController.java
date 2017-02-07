@@ -1,6 +1,8 @@
 package org.smarterbalanced.itemviewerservice.app.Controllers;
 
-import org.smarterbalanced.itemviewerservice.core.DiagnosticApi.DiagnosticManager;
+import static org.smarterbalanced.itemviewerservice.core.DiagnosticApi.DiagnosticManager.diagnosticStatuses;
+import static org.smarterbalanced.itemviewerservice.core.DiagnosticApi.DiagnosticManager.localDiagnosticStatus;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-
-import static org.smarterbalanced.itemviewerservice.core.DiagnosticApi.DiagnosticManager.localDiagnosticStatus;
 
 /**
  * The type Diagnostic api controller.
@@ -61,11 +61,11 @@ public class DiagnosticApiController {
           @RequestParam(value = "level", required = false, defaultValue = "0") Integer level,
           HttpServletRequest request) {
     String response = null;
-    if(level == null) {
+    if (level == null) {
       level = 0;
     }
     try {
-      response = DiagnosticManager.diagnosticStatuses(level);
+      response = diagnosticStatuses(level);
     } catch (Exception e) {
       return new ResponseEntity<>("500 internal Server error", HttpStatus.INTERNAL_SERVER_ERROR);
     }

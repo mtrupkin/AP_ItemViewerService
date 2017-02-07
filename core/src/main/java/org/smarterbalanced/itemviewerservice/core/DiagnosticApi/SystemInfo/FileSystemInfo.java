@@ -18,7 +18,7 @@ public class FileSystemInfo {
   private Float percentFreeSpace;
 
   /**
-   * The empty constructor only exsists for the java XML serializer
+   * The empty constructor only exsists for the java XML serializer.
    */
   public FileSystemInfo() {
     //This space intentionally left blank

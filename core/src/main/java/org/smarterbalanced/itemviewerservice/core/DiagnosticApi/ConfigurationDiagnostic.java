@@ -36,7 +36,7 @@ class ConfigurationDiagnostic extends BaseDiagnostic {
    * Validate the iris content path and application properties.
    */
   void runDiagnostics() {
-    if(this.errors == null) {
+    if (this.errors == null) {
       this.errors = new ArrayList<>();
     }
     validateContentPath();
@@ -47,13 +47,13 @@ class ConfigurationDiagnostic extends BaseDiagnostic {
     try {
       String path;
       //Allows manual setting of content path
-      if(this.contentPath == null) {
+      if (this.contentPath == null) {
         path = SettingsReader.readIrisContentPath();
       } else {
         path = this.contentPath;
       }
 
-      if(path == null || path.isEmpty()){
+      if (path == null || path.isEmpty()) {
         addError("Settings are not valid.");
       }
     } catch (IOException e) {
@@ -70,6 +70,7 @@ class ConfigurationDiagnostic extends BaseDiagnostic {
     }
 
   }
+
   public void setContentPath(String path) {
     this.contentPath = path;
   }

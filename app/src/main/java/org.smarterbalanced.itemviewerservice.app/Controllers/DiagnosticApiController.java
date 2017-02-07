@@ -47,7 +47,7 @@ public class DiagnosticApiController {
   }
 
   /**
-   * Diagnostics response entity.
+   * Diagnostic statuses for all instances of the Item Viewer Service in an AWS ECS cluster.
    *
    * @param level   Diagnostic level
    * @param request http request

@@ -54,6 +54,12 @@ import java.util.Properties;
 public class DiagnosticManager {
   private static final Logger logger = LoggerFactory.getLogger(DiagnosticManager.class);
 
+  /**
+   * @param level Diagnostic status level
+   * @param baseUrl Application base URL.
+   * @return Serialized diagnostic xml response.
+   * @throws JAXBException
+   */
   public static String localDiagnosticStatus(Integer level, String baseUrl) throws JAXBException{
     String response;
     DiagnosticApi diagnosticApi = new DiagnosticApi(level, baseUrl);
@@ -71,7 +77,7 @@ public class DiagnosticManager {
   /**
    * Look up the instances in an ECR cluster
    *
-   * @param awsCluster
+   * @param awsCluster The ERR cluster to query for AWS instance IDs
    * @return EC2 instance Ids.
    */
   private static List<String> getEc2InstanceIds(String awsCluster, String awsRegion) {
@@ -100,8 +106,8 @@ public class DiagnosticManager {
 
   /**
    * List the public IPS for ec2 instances
-   * @param ec2InstanceIds
-   * @return
+   * @param ec2InstanceIds Instance IDs to get IP addresses for.
+   * @return IP addresses for the instances passed in.
    */
   private static List<String> getEc2InstanceIPs(List<String> ec2InstanceIds, String awsRegion) {
     List<String> instanceIPs = new LinkedList<>();
@@ -121,7 +127,7 @@ public class DiagnosticManager {
     return instanceIPs;
   }
 
-  public static Pair<List<DiagnosticApi>, List<String>> getStatuses(List<String> instanceIPs, Integer level) throws IOException,
+  private static Pair<List<DiagnosticApi>, List<String>> getStatuses(List<String> instanceIPs, Integer level) throws IOException,
           ParserConfigurationException {
     List<DiagnosticApi> statuses = new LinkedList<>();
     List<String> failures = new LinkedList<>();
@@ -169,6 +175,14 @@ public class DiagnosticManager {
   }
 
 
+  /**
+   *
+   * @param level Diagnostic level
+   * @return Serialized Diagnostic XML for all instances in the configured ECR cluster
+   * @throws JAXBException Unable to deserialize the XML responses from other instances in the cluster.
+   * @throws IOException Unable to connect to the other instances in the cluster.
+   * @throws ParserConfigurationException XML parser is misconfigured.
+   */
   public static String diagnosticStatuses(Integer level) throws JAXBException, IOException, ParserConfigurationException {
     List<DiagnosticApi> statuses;
     URL resource = DiagnosticManager.class.getResource("/settings-mysql.xml");

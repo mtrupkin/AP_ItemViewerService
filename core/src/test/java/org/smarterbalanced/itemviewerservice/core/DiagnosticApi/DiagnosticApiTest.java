@@ -23,19 +23,10 @@ public class DiagnosticApiTest {
     ConfigurationDiagnostic configurationDiagnostic = new ConfigurationDiagnostic();
     configurationDiagnostic.setStatusRating(4);
     configurationDiagnostic.setStatusText("ideal");
-    configurationDiagnostic.setAwsRegion("us-west-2");
-    configurationDiagnostic.setS3ContentBucket("cass-test");
-    configurationDiagnostic.setContentPath("/testContent");
 
-    DatabaseDiagnostic databaseDiagnostic = new DatabaseDiagnostic();
+    DatabaseDiagnostic databaseDiagnostic = new DatabaseDiagnostic("/testContent");
     databaseDiagnostic.setStatusRating(4);
     databaseDiagnostic.setStatusText("ideal");
-    databaseDiagnostic.setContentPath("/testContent");
-    databaseDiagnostic.setContentWriteable(true);
-    databaseDiagnostic.setContentReadable(true);
-    databaseDiagnostic.setDbExists(true);
-    databaseDiagnostic.setCreateExampleFile("Diagnostic test file written to content package");
-    databaseDiagnostic.setRemoveExampleFile("Diagnostic test file deleted from content package.");
 
     List<String> testPackages = new ArrayList<>();
     testPackages.add("package1.zip");
@@ -46,9 +37,7 @@ public class DiagnosticApiTest {
     providersDiagnostic.setStatusText(BaseDiagnostic.convertToStatusText(4));
     providersDiagnostic.setBlackBoxStatus(200);
     providersDiagnostic.setIrisStatus(200);
-    providersDiagnostic.setS3connection("Connected to Amazon S3.");
     providersDiagnostic.setWordListHandlerStatus(200);
-    providersDiagnostic.setContentPackages(testPackages);
 
     diagnosticApi.setSystemDiagnostic(systemDiagnostic);
     diagnosticApi.setConfigurationDiagnostic(configurationDiagnostic);

@@ -9,8 +9,10 @@ import org.xml.sax.SAXException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -54,22 +56,15 @@ public class SettingsReader {
    *
    * @return the iris content path as a string
    * @throws IOException                  io exception loading config files
-   * @throws ParserConfigurationException parser configuration exception
    * @throws URISyntaxException           uri syntax exception
-   * @throws XPathExpressionException     xpath expression exception
-   * @throws SAXException                 sax exception
    */
-  public static String readIrisContentPath() throws IOException, ParserConfigurationException,
-          URISyntaxException, XPathExpressionException, SAXException {
+  public static String readIrisContentPath() throws IOException, URISyntaxException {
     URL resource = SettingsReader.class.getResource("/settings-mysql.xml");
-    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder builder = factory.newDocumentBuilder();
-    Document doc = builder.parse(resource.toURI().toString());
-    XPathFactory pathFactory = XPathFactory.newInstance();
-    XPath path = pathFactory.newXPath();
-    XPathExpression contentPathExpr = path.compile("//entry[@key=\"iris.ContentPath\"]");
-    NodeList nodeList = (NodeList) contentPathExpr.evaluate(doc, XPathConstants.NODESET);
-    return nodeList.item(0).getTextContent();
+    InputStream in = new FileInputStream(resource.getPath());
+    Properties props = new Properties();
+    props.loadFromXML(in);
+    in.close();
+    String contentPath = props.getProperty("iris.ContentPath");
+    return contentPath;
   }
-
 }

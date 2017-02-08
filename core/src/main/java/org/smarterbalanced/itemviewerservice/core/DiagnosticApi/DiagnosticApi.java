@@ -66,12 +66,14 @@ public class DiagnosticApi extends BaseDiagnostic {
    * @throws UnsupportedOperationException The empty constructor only exists for the XML serializer.
    */
   //This empty constructor is required for the Xml serializer
-  public DiagnosticApi() throws UnsupportedOperationException {
-    throw new UnsupportedOperationException(
-            "DiagnosticApi class must be instantiated with arguments.");
+  public DiagnosticApi() {
   }
 
-  private String generateTimestamp() {
+  /**
+   * Creates a UTC timestamp with RFC 3339 format for the current time.
+   * @return Current UTC time in RFC 3339 format.
+   */
+  public static String generateTimestamp() {
     SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
     time.setTimeZone(TimeZone.getTimeZone("UTC"));
     return time.format(new Date());
@@ -87,7 +89,6 @@ public class DiagnosticApi extends BaseDiagnostic {
         this.providersDiagnostic = new ProvidersDiagnostic(this.baseUrl);
         this.providersDiagnostic.runDiagnostics();
         this.databaseDiagnostic = new DatabaseDiagnostic();
-        this.databaseDiagnostic.dbWriteDiagnostics();
         this.databaseDiagnostic.dbReadDiagnostics();
         this.configurationDiagnostic = new ConfigurationDiagnostic();
         this.configurationDiagnostic.runDiagnostics();
@@ -96,7 +97,6 @@ public class DiagnosticApi extends BaseDiagnostic {
         break;
       case 4:
         this.databaseDiagnostic = new DatabaseDiagnostic();
-        this.databaseDiagnostic.dbWriteDiagnostics();
         this.databaseDiagnostic.dbReadDiagnostics();
         this.configurationDiagnostic = new ConfigurationDiagnostic();
         this.configurationDiagnostic.runDiagnostics();

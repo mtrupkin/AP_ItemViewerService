@@ -78,7 +78,7 @@ class BaseDiagnostic {
    * @param statusRating the status rating
    * @return the string
    */
-  static String convertToStatusText(Integer statusRating) {
+  public static String convertToStatusText(Integer statusRating) {
     String statusText;
     switch (statusRating) {
       case 0:

@@ -10,13 +10,13 @@
     <name>itemviewerservice.app</name>
 
     <!-- Artifactory for the Smarter Balanced Iris -->
-    <repositories>
+    <distributionManagement>
         <repository>
             <id>central</id>
             <name>airdev-releases</name>
             <url>https://airdev.artifactoryonline.com/airdev/libs-releases-local</url>
         </repository>
-    </repositories>
+    </distributionManagement>
 
     <!-- Version variables -->
     <properties>

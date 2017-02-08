@@ -24,5 +24,6 @@ after_success:
  - docker build -t itemviewerservice .
  - docker tag itemviewerservice:latest 047189625337.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:$BRANCH
  - docker push 047189625337.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:$BRANCH
+ - cd ..
  - chmod ugo+x DeployScripts/runEcsBuild.sh
  - ./DeployScripts/runEcsBuild.sh

@@ -38,7 +38,9 @@ public class SystemFsStats {
     FileSystem fileSystem = hal.getFileSystem();
     OSFileStore[] fsArray = fileSystem.getFileStores();
     for (OSFileStore fs: fsArray) {
-      fsInfo.add(new FileSystemInfo(fs));
+      if (!fs.getType().isEmpty() && fs.getTotalSpace() != 0) {
+        fsInfo.add(new FileSystemInfo(fs));
+      }
     }
   }
 

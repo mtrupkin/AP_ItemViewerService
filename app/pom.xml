@@ -9,6 +9,15 @@
 
     <name>itemviewerservice.app</name>
 
+    <!-- Artifactory for the Smarter Balanced Iris -->
+    <repositories>
+        <repository>
+            <id>org.opentestsystem</id>
+            <name>airdev-releases</name>
+            <url>https://airdev.artifactoryonline.com/airdev/libs-releases-local</url>
+        </repository>
+    </repositories>
+
     <!-- Version variables -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -103,20 +112,8 @@
 
         <dependency>
             <groupId>org.opentestsystem.delivery</groupId>
-            <artifactId>student.library</artifactId>
-            <version>1.0.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.opentestsystem.delivery</groupId>
             <artifactId>iris</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
             <type>war</type>
         </dependency>
     </dependencies>
@@ -138,6 +135,7 @@
                                 <!-- We are including a more recent version of JNA in our project -->
                                 <exclude>WEB-INF/lib/jna-3.0.9.jar</exclude>
                                 <exclude>WEB-INF/web.xml</exclude>
+                                <exclude>WEB-INF/classes/settings-mysql.xml</exclude>
                                 <exclude>/IrisPages/</exclude>
                             </excludes>
                         </overlay>

@@ -10,10 +10,11 @@ public class ConfigurationDiagnosticNoPropertiesTest {
   @Test
   public void noConfig() {
     ConfigurationDiagnostic configurationDiagnostic = new ConfigurationDiagnostic();
+    configurationDiagnostic.setContentPath("");
     configurationDiagnostic.runDiagnostics();
     assertTrue(configurationDiagnostic.getErrors().size() > 0);
-    assertEquals(configurationDiagnostic.getStatusRating(), (Integer)0);
-    assertEquals(configurationDiagnostic.getStatusText(), "failed");
+    assertEquals((Integer)0, configurationDiagnostic.getStatusRating());
+    assertEquals("failed", configurationDiagnostic.getStatusText());
   }
 
 }

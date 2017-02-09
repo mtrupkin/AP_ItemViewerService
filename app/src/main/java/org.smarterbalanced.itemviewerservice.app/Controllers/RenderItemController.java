@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import tds.iris.abstractions.repository.IContentBuilder;
 
 
 /**
@@ -19,9 +18,6 @@ import tds.iris.abstractions.repository.IContentBuilder;
 
 @Controller
 public class RenderItemController {
-
-  @Autowired
-  private IContentBuilder contentBuilder;
 
   /**
    * Returns content.
@@ -41,25 +37,12 @@ public class RenderItemController {
     String[] codes = accommodationCodes.split(";");
     ItemRequestModel item = new ItemRequestModel("I-" + itemId, codes);
 
-    //check if the item exists
-    try {
-      contentBuilder.getITSDocument("I-" + itemId);
-    } catch (Exception e) {
-      throw new ItemNotFoundException();
-    }
-
     String token = item.generateJsonToken();
     ModelAndView model = new ModelAndView();
     model.setViewName("item");
     model.addObject("token", token);
     model.addObject("item", itemId);
     return model;
-  }
-
-  @RequestMapping(value = "/reload")
-  public String reload() {
-    contentBuilder.init();
-    return "redirect:/Pages/API/content/reload";
   }
 
 }

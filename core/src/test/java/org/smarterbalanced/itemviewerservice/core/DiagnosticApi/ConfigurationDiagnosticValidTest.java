@@ -31,8 +31,6 @@ public class ConfigurationDiagnosticValidTest {
     configurationDiagnostic.runDiagnostics();
     assertEquals((Integer)4, configurationDiagnostic.getStatusRating());
     assertEquals(configurationDiagnostic.getStatusText(), "ideal");
-    assertEquals(configurationDiagnostic.getAwsRegion(), "us-west-2");
-    assertEquals(configurationDiagnostic.getS3ContentBucket(), "cass-test");
     assertEquals(configurationDiagnostic.getErrors(), null);
   }
 

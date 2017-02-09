@@ -24,6 +24,9 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_ASL0", "American Sign Language");
     accommodationMap.put("TDS_ASL1", "American Sign Language");
 
+    //Braille
+    accommodationMap.put("TDS_BT0", "BrailleType");
+
     //Closed Captioning
     accommodationMap.put("TDS_ClosedCap0", "ClosedCaptioning");
     accommodationMap.put("TDS_ClosedCap1", "ClosedCaptioning");
@@ -48,6 +51,10 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("ESN", "Language");
     accommodationMap.put("ENU-Braille", "Language");
 
+    //Mark for Review
+    accommodationMap.put("TDS_MfR1", "MarkforReview ");
+    accommodationMap.put("TDS_MfR0", "MarkforReview ");
+
     //Masking
     accommodationMap.put("TDS_Masking0", "Masking");
     accommodationMap.put("TDS_Masking1", "Masking");
@@ -59,6 +66,12 @@ public final class AccommodationTypeLookup {
     //Permissive Mode
     accommodationMap.put("TDS_PM0", "Permissive Mode");
     accommodationMap.put("TDS_PM1", "Permissive Mode");
+
+    //Print on Demand
+    accommodationMap.put("TDS_PoD0", "PrintOnDemand");
+    accommodationMap.put("TDS_PoD_Stim", "PrintOnDemand");
+    accommodationMap.put("TDS_PoD_Item", "PrintOnDemand");
+    accommodationMap.put("TDS_PoD_Stim&TDS_PoD_Item", "PrintOnDemand");
 
     //Print Size
     accommodationMap.put("TDS_PS_L0", "Print Size");
@@ -84,6 +97,7 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_TTS0", "TTS");
     accommodationMap.put("TDS_TTS_Item", "TTS");
     accommodationMap.put("TDS_TTS_Stim", "TTS");
+    accommodationMap.put("TDS_TTS_Stim&TDS_TTS_Item", "TTS");
 
     //Translation Glossary
     accommodationMap.put("TDS_WL0", "Word List");
@@ -98,6 +112,16 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_WL_TagalGloss", "Word List");
     accommodationMap.put("TDS_WL_UkrainianGloss", "Word List");
     accommodationMap.put("TDS_WL_VietnameseGloss", "Word List");
+    accommodationMap.put("TDS_WL_ArabicGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_CantoneseGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_ESNGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_KoreanGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_MandarinGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_PunjabiGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_RussianGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_TagalGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_UkrainianGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_VietnameseGloss&TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_Illustration", "Word List");
 
     //Calculator

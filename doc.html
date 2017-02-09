@@ -275,7 +275,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   </style>
 </head>
 <body>
-<h1>Item Viewer</h1>
+<h1>Item Viewer Service</h1>
 <h3>Table of Contents</h3>
 <nav id="TOC">
 <ul>
@@ -291,7 +291,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li><a href="#third-party-libraries">Third Party Libraries</a><ul>
 <li><a href="#amazon-web-services-java-sdk">Amazon Web Services Java SDK</a></li>
-<li><a href="#apache-commons">Apache Commons</a></li>
 <li><a href="#logback-classic">Logback Classic</a></li>
 <li><a href="#jackson-databind">Jackson Databind</a></li>
 <li><a href="#operating-system-hardware-information">Operating System Hardware Information</a></li>
@@ -331,7 +330,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </nav>
 <h1 id="item-viewer-service-technologies-overview">Item Viewer Service Technologies Overview</h1>
 <h2 id="item-viewer-service-modules">Item Viewer Service Modules</h2>
-<p>The item viewer service provides an API to load a single content item and accommodations in a page. The item and accommodations are specified as URL parameters. The item viewer service is divided into three layers, the App, the Core, and the Data Access Layer or dal. Each layer is a Maven submodule that is part of the main item viewer service Maven application.</p>
+<p>The item viewer service provides an API to load a single content item and accessibility options in a page. The item and accommodations are specified as URL parameters. The item viewer service is divided into three layers, the App, the Core, and the Data Access Layer or dal. Each layer is a Maven submodule that is part of the main item viewer service Maven application.</p>
 <h3 id="app">App</h3>
 <p>The App module has the web application frontend parts and application configuration. It contains the web application controllers, JavaScript, page templates, and application configuration files.</p>
 <h4 id="spring">Spring</h4>
@@ -342,16 +341,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h4 id="javascript">JavaScript</h4>
 <p>The item viewer service includes all of the JavaScript from Iris required to display items and accommodations.</p>
 <h4 id="configuration">Configuration</h4>
-<p>The App layer contains the logging and application configuration files.</p>
+<p>The App layer contains the logging and application configuration files. Both the the application logging and settings are configured using XML files.</p>
 <h3 id="core">Core</h3>
-<p>The Core module contains the application’s business logic. It contains the diagnostic API, item request processing logic, and the tool that checks for updated content packages on Amazon S3.</p>
+<p>The Core module contains the application’s business logic. It contains the item request processing and diagnostic API logic.</p>
 <h4 id="diagnostic-api">Diagnostic API</h4>
 <p>The Diagnostic API is implemented using the requirements listed in the SmarterApp Web Diagnostic API <a href="http://www.smarterapp.org/documents/DiagnosticApi.html">documentation</a>. It supports five levels of diagnostics; system, configuration, database read, database write, and external providers. The system diagnostic uses the Operating System Hardware Information (OSHI) library to gather information on memory usage and file system space. The configuration diagnostic checks for the existence of the application configuration file and configuration variables. The database read diagnostic makes sure the Iris content path variable is readable, and that it contains content items. The database write diagnostic makes sure that the Iris content directory is writeable, then performs a write and a delete in the content directory. The providers diagnostic checks the status of the word list handler, the black box, the item viewer service API, the Amazon S3 content bucket, and the content packages. It performs an HTTP get request to get the status of the word list handler, black box, and item viewer service API. It uses the Amazon AWS Java SDK to connect to Amazon S3 and get a list of content packages. The diagnostic API can be accessed at /statusLocal?level=&lt;1-5&gt;. Replace the brackets and number with a status level between 1 and 5 inclusive.</p>
 <p>If the Item Viewer is running an an AWS ERS cluster it can be configured to display the diagnostic status of each instance of the Item Viewer in the cluster.</p>
 <h4 id="item-request-translation">Item Request Translation</h4>
 <p>When the item viewer service receives a request for an item the request is translated into a JSON token that the Iris will accept. The item viewer service parses the item bank and key out of the URL as well as any accommodation codes. The Iris requires both the accommodation type and code for each accommodation. The item viewer service only requires codes. A reverse lookup is performed to get the accommodation type for each accommodation code. Finally the item bank and key, and accommodation types and codes are serialized into a JSON token that Iris can parse.</p>
 <h3 id="data-access-layer">Data Access Layer</h3>
-<p>The Data Access Layer contains the classes used to access configuration.</p>
+<p>The Data Access Layer contains the classes used to access the configuration files.</p>
 <h2 id="smarter-balanced-libraries">Smarter Balanced Libraries</h2>
 <h3 id="dictionary">Dictionary</h3>
 <p>The Smarter Balanced Dictionary is a runtime dependency of the Iris application, and therefore the item viewer service application. It provides an API that is used for the dictionary accommodation. The item viewer service requires that it is configured and running.</p>
@@ -361,9 +360,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The item viewer service extends the Iris application by adding its own controllers for loading items and accommodations by URL, and the diagnostic API. In the backend it adds the diagnostic API logic, accommodation code to type lookup, and a service that fetches content packages from Amazon Web Services S3.</p>
 <h2 id="third-party-libraries">Third Party Libraries</h2>
 <h3 id="amazon-web-services-java-sdk">Amazon Web Services Java SDK</h3>
-<p>The Amazon Web Services (AWS) Java SDK is used to connect to the AWS S3 service. It is used for authentication, and S3 file information and downloads.</p>
-<h3 id="apache-commons">Apache Commons</h3>
-<p>The Apache Commons IO library is used in the data access layer to take the file stream provided by the AWS Java SDK S3 client and write the file to disk. It is used to transfer and delete files when updating the content on the local file system.</p>
+<p>The Amazon Web Services (AWS) Java SDK is used to connect to the AWS ECS and EC2 services so the diagnostic API can display diagnostics for all instances of the Item Viewer running in a ECS cluster.</p>
 <h3 id="logback-classic">Logback Classic</h3>
 <p>Logback classic is the logging framework used by the Iris.</p>
 <h3 id="jackson-databind">Jackson Databind</h3>

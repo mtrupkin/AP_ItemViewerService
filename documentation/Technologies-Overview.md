@@ -1,7 +1,7 @@
 # Item Viewer Service Technologies Overview
 
 ## Item Viewer Service Modules
-The item viewer service provides an API to load a single content item and accommodations in a page. The item and accommodations are specified as URL parameters.
+The item viewer service provides an API to load a single content item and accessibility options in a page. The item and accommodations are specified as URL parameters.
 The item viewer service is divided into three layers, the App, the Core, and the Data Access Layer or dal.
 Each layer is a Maven submodule that is part of the main item viewer service Maven application.
 
@@ -31,9 +31,10 @@ The item viewer service includes all of the JavaScript from Iris required to dis
 
 #### Configuration
 The App layer contains the logging and application configuration files.
+Both the the application logging and settings are configured using XML files.
 
 ### Core
-The Core module contains the application's business logic. It contains the diagnostic API, item request processing logic, and the tool that checks for updated content packages on Amazon S3.
+The Core module contains the application's business logic. It contains the item request processing and diagnostic API logic.
 
 #### Diagnostic API
 The Diagnostic API is implemented using the requirements listed in the SmarterApp Web Diagnostic API [documentation](http://www.smarterapp.org/documents/DiagnosticApi.html).
@@ -56,7 +57,7 @@ A reverse lookup is performed to get the accommodation type for each accommodati
 Finally the item bank and key, and accommodation types and codes are serialized into a JSON token that Iris can parse.
 
 ### Data Access Layer
-The Data Access Layer contains the classes used to access configuration. 
+The Data Access Layer contains the classes used to access the configuration files. 
 
 ## Smarter Balanced Libraries
 
@@ -77,11 +78,7 @@ In the backend it adds the diagnostic API logic, accommodation code to type look
 ## Third Party Libraries
 
 ### Amazon Web Services Java SDK
-The Amazon Web Services (AWS) Java SDK is used to connect to the AWS S3 service. It is used for authentication, and S3 file information and downloads.
-
-### Apache Commons
-The Apache Commons IO library is used in the data access layer to take the file stream provided by the AWS Java SDK S3 client and write the file to disk. It is used to transfer and delete files when updating the content on the local file system.
-
+The Amazon Web Services (AWS) Java SDK is used to connect to the AWS ECS and EC2 services so the diagnostic API can display diagnostics for all instances of the Item Viewer running in a ECS cluster.
 
 ### Logback Classic
 Logback classic is the logging framework used by the Iris.

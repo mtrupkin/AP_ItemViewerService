@@ -1,128 +1,177 @@
-# Item Viewer Service Technologies Overview
+-   [Configuration](#configuration)
+    -   [Item Viewer Configuration](#item-viewer-configuration)
+        -   [General](#general)
+        -   [Logging](#logging)
+    -   [Tomcat](#tomcat)
+-   [Item Viewer Service Manual
+    Setup](#item-viewer-service-manual-setup)
+    -   [Dependencies](#dependencies)
+        -   [Compile Time Dependencies](#compile-time-dependencies)
+        -   [Run Time Dependencies](#run-time-dependencies)
+    -   [Configuration](#configuration-1)
+        -   [Dictionary API](#dictionary-api)
+        -   [Aws Container Cluster Information
+            (Optional)](#aws-container-cluster-information-optional)
+        -   [Logging](#logging-1)
+        -   [Local System](#local-system)
+    -   [Building and Running](#building-and-running)
+        -   [Building](#building)
+        -   [Running](#running)
 
-This document explains the main parts of the item viewer service and, its important dependencies.
+Configuration
+=============
 
-#### Table of Contents
-  * [Item Viewer Service Overview](#item-viewer-service-overview)
-    * [App](#app)
-      * [Spring](#spring)
-      * [JavaScript](#javascript)
-      * [Configuration](#configuration)
-    * [Core](#core)
-      * [Diagnostic API](#diagnostic-api)
-      * [Item Request Translation](#item-request-translation)
-      * [S3 Content Package Update Checker](#s3-content-package-update-checker)
-    * [Data Access Layer](#data-access-layer)
-      * [Amazon File API](#amazon-file-api)
-      * [Zip Archive Extraction](#zip-archive-extraction)
-  * [Smarter Balanced Libraries](#smarter-balanced-libraries)
-    * [Dictionary](#dictionary)
-    * [Iris](#iris)
-    * [Student Library](#student-library)
-  * [Third Party Libraries](#third-party-libraries)
-    * [Amazon Web Services Java SDK](#amazon-web-services-java-sdk)
-    * [Apache Commons](#apache-commons)
-    * [Logback Classic](#logback-classic)
-    * [Jackson Databind](#jackson-databind)
-    * [Operating System Hardware Information](#operating-system-hardware-information)
-    * [SLF4J](#slf4j)
-    * [Spring](#spring)
+Item Viewer Configuration
+-------------------------
 
+### General
 
-## Item Viewer Service Modules
-The item viewer service provides an API to load a single content item and accommodations in a page. The item and accommodations are specified as URL parameters.
-The item viewer service is divided into three layers, the App, the Core, and the Data Access Layer or dal.
-Each layer is a Maven submodule that is part of the main item viewer service Maven application.
+The Item Viewer Service config file is located in
+`app/src/main/resources/settings-mysql.xml` Most of the vlaues are
+carried over from Iris. The following options must be configured in the
+settings-mysql.xml config file for the Item Viewer to function
+correctly. - `iris.ContentPath` must be set to the location of the
+content package on the local filesystem. - `iris.DictionaryUrl` must be
+set to the url of the [dictionary
+API](https://github.com/SmarterApp/TDS_Dictionary). - `AwsRegion` Set
+this to the AWS region the Ite Viewer is running in if it is running on
+AWS. - `AwsClusterName` Set this to the AWS ECS cluster the Item Viewer
+Service is running in if it is running on AWS ECS.
 
-### App
-The App module has the web application frontend parts and application configuration. It contains the web application controllers, JavaScript, page templates, and application configuration files.
+### Logging
 
-#### Spring
-Spring is used for controllers and scheduled services. The item viewer service uses a mixture of xml and annotation configuration for Spring. Controllers use the `@RequestMapping` annotation to map the item and diagnostic API URLs. The item viewer service servlet is configured with xml and used to map the item page template directory and .jsp file extension.
+The Item viewer service uses Logback Classic bound to SLF4J for logging.
+The Logging configuration file is `app/src/main/resources/logback.xml`.
+The config file included will log to stdout and
+`/home/tomcat7/itemviewerservice.log`. Details for configuring the log
+output can be found in the loback classic
+[documentation](https://logback.qos.ch/manual/configuration.html).
 
+Tomcat
+------
 
-The controller for loading items is mapped to `/item/itemID`.
-The item ID must match the regex `d+[-]d+`, that is one or more numbers, a dash, and one or more numbers in that order.
-Optional accommodations are specified with the `isaap` URL parameter and are semicolon delimited. Only the accommodation code should be specified. Accommodation type is not specified.
-For example, the URL to load item 200-12344 with the word list glossary and expandable passages would look like   `http://viewer.smarterbalanced.org/item/200-12344?isaap=TDS_WL_Glossary;TDS_ExpandablePassages1`.
+The Item Viewer must be run in Apache Tomcat 7 or newer.
 
+In order to run correctly the following Tomcat configuration needs to be
+set.
 
-The Diagnostic API returns xml formatted diagnostic results per the diagnostic API [requirements](http://www.smarterapp.org/documents/DiagnosticApi.html). The diagnostic API supports levels 0 through 5 as required in the requirements. The diagnostic level is specified as a URL parameter. For example the level 3 diagnostic API would be accessed with http://viewer.smarterbalanced.org/status?level=3.
-The diagnostic API is mapped to /statusLocal. 
-If the Item Viewer is running in an AWS ECS cluster it can be configured to display the diagnostic status for each instance of the Item Viewer running in the cluster.
-The cluster status is mapped to /status.
+Set a 25 character alphanumeric numeric encryption key for Iris in
+\$TOMCAT\_HOME/conf/context.xml under the context element. The entry
+follows the form
+`<Parameter value="YOUR KEY ENCRYPTION KEY HERE" override="false" name="tds.iris.EncryptionKey"/>`.
 
-The service that polls Amazon Web Services S3 for updated content packages and downloads them to the local file system is run as a Spring scheduled service.
-It is configured with annotations to run every 5 minutes after the previous run of the service has finished.
+The dictionary API call is made as a cross origin request. A CORS filter
+must be added to `$TOMCAT_HOME/conf/web.xml`.
 
-#### JavaScript
-The item viewer service includes all of the JavaScript from Iris required to display items and accommodations.
+``` {.xml}
+<filter>
+  <filter-name>CorsFilter</filter-name>
+  <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+</filter>
+<filter-mapping>
+  <filter-name>CorsFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
 
-#### Configuration
-The App layer contains the logging and application configuration files.
+Item Viewer Service Manual Setup
+================================
 
-### Core
-The Core module contains the application's business logic. It contains the diagnostic API, item request processing logic, and the tool that checks for updated content packages on Amazon S3.
+To build and run the item viewer service on your local machine you will
+need the following.
 
-#### Diagnostic API
-The Diagnostic API is implemented using the requirements listed in the SmarterApp Web Diagnostic API [documentation](http://www.smarterapp.org/documents/DiagnosticApi.html).
-It supports five levels of diagnostics; system, configuration, database read, database write, and external providers.
-The system diagnostic uses the Operating System Hardware Information (OSHI) library to gather information on memory usage and file system space.
-The configuration diagnostic checks for the existence of the application configuration file and configuration variables. The database read diagnostic makes sure the Iris content path variable is readable, and that it contains content items.
-The database write diagnostic makes sure that the Iris content directory is writeable, then performs a write and a delete in the content directory.
-The providers diagnostic checks the status of the word list handler, the black box, the item viewer service API, the Amazon S3 content bucket, and the content packages.
-It performs an HTTP get request to get the status of the word list handler, black box, and item viewer service API.
-It uses the Amazon AWS Java SDK to connect to Amazon S3 and get a list of content packages.
-The diagnostic API can be accessed at /statusLocal?level=<1-5>. Replace the brackets and number with a status level between 1 and 5 inclusive.
+Dependencies
+------------
 
-If the Item Viewer is running an an AWS ERS cluster it can be configured to display the diagnostic status of each instance of the Item Viewer in the cluster.
+### Compile Time Dependencies
 
-#### Item Request Translation
-When the item viewer service receives a request for an item the request is translated into a JSON token that the Iris will accept.
-The item viewer service parses the item bank and key out of the URL as well as any accommodation codes.
-The Iris requires both the accommodation type and code for each accommodation. The item viewer service only requires codes.
-A reverse lookup is performed to get the accommodation type for each accommodation code.
-Finally the item bank and key, and accommodation types and codes are serialized into a JSON token that Iris can parse.
+Compile time dependencies are built into the Maven POM file. Java 7 is
+required to build and run the Item Viewer Service.
 
-### Data Access Layer
-The Data Access Layer contains the classes used to access configuration. 
+The Item Viewer Service depends on the Iris package of TDS\_Student.
 
-## Smarter Balanced Libraries
+### Run Time Dependencies
 
-### Dictionary
-The Smarter Balanced Dictionary is a runtime dependency of the Iris application, and therefore the item viewer service application. It provides an API that is used for the dictionary accommodation. The item viewer service requires that it is configured and running.
+-   Apache Tomcat 7 or newer
+-   Smarter Balanced Dictionary API access
+-   Read access to the local file system
 
-### Iris
-The Smarter Balanced Iris is used as a Maven WAR overlay to extend the scripts, styling and functionality of the Iris application into the item viewer service.
-The Iris application displays a window for users with a text box where they can enter a JSON token to load an item and accommodations. The item and accommodations are loaded in an iFrame embedded in the page with the text box.
-The iFrame with the items and accommodations is the front end part of the Iris that the item viewer service makes use of. It loads only the iFrame and selects which item and accommodations are loaded from the URL.
+Configuration
+-------------
 
-The item viewer service excludes some files from the Iris WAR overlay. It excludes the Iris web.xml file because it requires different servlet mappings. It excludes the JNA 3.0.9 jar because it causes a dependency conflict with the Operating System Hardware Information library which depends on JNA 4.2.2. Finally it excludes the IrisPages directory because it does not need the page templates it contains.
+The item viewer service configuration file is located at
+`app/src/main/resources/settings-mysql.xml`.
 
-The item viewer service extends the Iris application by adding its own controllers for loading items and accommodations by URL, and the diagnostic API.
-In the backend it adds the diagnostic API logic, accommodation code to type lookup, and a service that fetches content packages from Amazon Web Services S3.
+The `iris.ContentPath` variable in the settings-mysql.xml file needs to
+be set to the local directory where the content packages are going to be
+stored. If this directory does not exist, or the application can not
+access it, it will fail to launch.
 
+Iris requires a 25 character alphanumeric numeric encryption key set as
+a parameter in \$TOMCAT\_HOME/conf/context.xml under the context
+element. The entry follows the form
+`<Parameter value="YOUR KEY ENCRYPTION KEY HERE" override="false" name="tds.iris.EncryptionKey"/>`.
 
-## Third Party Libraries
+##### Dictionary API
 
-### Amazon Web Services Java SDK
-The Amazon Web Services (AWS) Java SDK is used to connect to the AWS S3 service. It is used for authentication, and S3 file information and downloads.
+In order to use the dictionary you need to set the `iris.DictionaryUrl`
+value in the settings-mysql.xml config file for the Iris. The dictionary
+should be a running instance of the [TDS\_Dictionary
+application](https://github.com/SmarterApp/TDS_Dictionary).
 
-### Apache Commons
-The Apache Commons IO library is used in the data access layer to take the file stream provided by the AWS Java SDK S3 client and write the file to disk. It is used to transfer and delete files when updating the content on the local file system.
+The dictionary API call is made as a cross origin request. A CORS filter
+needs to be added to the Tomcat \$TOMCAT\_HOME/conf/web.xml file.
 
+``` {.xml}
+<filter>
+  <filter-name>CorsFilter</filter-name>
+  <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+</filter>
+<filter-mapping>
+  <filter-name>CorsFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
 
-### Logback Classic
-Logback classic is the logging framework used by the Iris.
+Tomcat has detailed
+[documentation](http://tomcat.apache.org/tomcat-8.0-doc/config/filter.html#CORS_Filter)
+on setting up CORS filtering. Please refer to it if you want to set up a
+more detailed filter.
 
-### Jackson Databind
-Jackson databind is used to serialize the data from the API call to item viewer service into a token that can be sent to the Iris.
+##### Aws Container Cluster Information (Optional)
 
-### Operating System Hardware Information
-The Operating system Hardware Information (OSHI) library is used by the system diagnostic to get information on total memory, memory usage, and file system size, usage and type.
+The "AwsRegion" and "AwsClusterName" keys are used if the application is
+being run outside of an AWS ERS cluster. If you are running the Item
+Viewer locally you can ignore these. Please note that the /status url
+will not work if the Item Viewer is being run outside of an AWS ECS
+cluster. Use /statusLocal for local diagnostics.
 
-### SLF4J
-SLF4J is the logging facade used by Iris. It can be bound to a number of different logging frameworks. In the case of Iris and the item viewer service the logback classic logging framework is used.
+#### Logging
 
-### Spring
-Spring is the web application framework used in Iris and other Smarter Balanced applications. The Item Viewer Service uses version 3.2.1 because that is the same version Iris uses.
+The item viewer service uses [SLF4J](http://www.slf4j.org/) bound to
+[Logback Classic](http://logback.qos.ch/) for logging. The log settings
+are found in logback.xml. For basic logging to a file you will need to
+set the file location for the file appender. For a full reference on
+configuring the log output levels and locations please refer to the
+Logback Classic
+[documentation](http://logback.qos.ch/manual/configuration.html).
+
+#### Local System
+
+The application requires read permissions to the Iris content directory
+specified in settings-mysql.xml.
+
+Building and Running
+--------------------
+
+### Building
+
+To build the item viewer run `mvn install` in the top level project
+directory. The compiled WAR file will be generated in
+`app/target/itemviwerservice.war`.
+
+### Running
+
+Deploy the WAR file to Apache Tomcat by placing the
+itemviewerservice.war file in your tomcat webapps directory, then
+starting Tomcat.

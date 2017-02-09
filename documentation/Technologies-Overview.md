@@ -97,3 +97,4 @@ SLF4J is the logging facade used by Iris. It can be bound to a number of differe
 
 ### Spring
 Spring is the web application framework used in Iris and other Smarter Balanced applications. The Item Viewer Service uses version 3.2.1 because that is the same version Iris uses.
+

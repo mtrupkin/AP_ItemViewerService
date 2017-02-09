@@ -1,4 +1,4 @@
-#Configuration
+# Configuration
 
 ## Item Viewer Configuration
 ### General
@@ -36,3 +36,4 @@ The dictionary API call is made as a cross origin request. A CORS filter must be
   <url-pattern>/*</url-pattern>
 </filter-mapping>
 ```
+

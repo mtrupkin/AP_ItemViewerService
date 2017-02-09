@@ -160,3 +160,4 @@ Restart tomcat7 and nginx:
 `sudo service tomcat7 restart`
 
 `sudo service nginx restart`
+

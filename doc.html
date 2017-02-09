@@ -298,6 +298,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#slf4j">SLF4J</a></li>
 <li><a href="#spring-1">Spring</a></li>
 </ul></li>
+</ul></li>
+<li><a href="#configuration-1">Configuration</a><ul>
 <li><a href="#item-viewer-configuration">Item Viewer Configuration</a><ul>
 <li><a href="#general">General</a></li>
 <li><a href="#logging">Logging</a></li>
@@ -309,7 +311,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#compile-time-dependencies">Compile Time Dependencies</a></li>
 <li><a href="#run-time-dependencies">Run Time Dependencies</a></li>
 </ul></li>
-<li><a href="#configuration-1">Configuration</a><ul>
+<li><a href="#configuration-2">Configuration</a><ul>
 <li><a href="#dictionary-api">Dictionary API</a></li>
 <li><a href="#aws-container-cluster-information-optional">Aws Container Cluster Information (Optional)</a></li>
 <li><a href="#logging-1">Logging</a></li>
@@ -371,7 +373,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3 id="slf4j">SLF4J</h3>
 <p>SLF4J is the logging facade used by Iris. It can be bound to a number of different logging frameworks. In the case of Iris and the item viewer service the logback classic logging framework is used.</p>
 <h3 id="spring-1">Spring</h3>
-<p>Spring is the web application framework used in Iris and other Smarter Balanced applications. The Item Viewer Service uses version 3.2.1 because that is the same version Iris uses. #Configuration</p>
+<p>Spring is the web application framework used in Iris and other Smarter Balanced applications. The Item Viewer Service uses version 3.2.1 because that is the same version Iris uses.</p>
+<h1 id="configuration-1">Configuration</h1>
 <h2 id="item-viewer-configuration">Item Viewer Configuration</h2>
 <h3 id="general">General</h3>
 <p>The Item Viewer Service config file is located in <code>app/src/main/resources/settings-mysql.xml</code> Most of the values are carried over from Iris. The following options must be configured in the settings-mysql.xml config file for the Item Viewer to function correctly. - <code>iris.ContentPath</code> must be set to the location of the content package on the local filesystem. - <code>iris.DictionaryUrl</code> must be set to the url of the <a href="https://github.com/SmarterApp/TDS_Dictionary">dictionary API</a>. - <code>AwsRegion</code> Set this to the AWS region the Ite Viewer is running in if it is running on AWS. - <code>AwsClusterName</code> Set this to the AWS ECS cluster the Item Viewer Service is running in if it is running on AWS ECS.</p>
@@ -402,7 +405,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Smarter Balanced Dictionary API access</li>
 <li>Read access to the local file system</li>
 </ul>
-<h2 id="configuration-1">Configuration</h2>
+<h2 id="configuration-2">Configuration</h2>
 <p>The item viewer service configuration file is located at <code>app/src/main/resources/settings-mysql.xml</code>.</p>
 <p>The <code>iris.ContentPath</code> variable in the settings-mysql.xml file needs to be set to the local directory where the content packages are going to be stored. If this directory does not exist, or the application can not access it, it will fail to launch.</p>
 <p>Iris requires a 25 character alphanumeric numeric encryption key set as a parameter in $TOMCAT_HOME/conf/context.xml under the context element. The entry follows the form <code>&lt;Parameter value=&quot;YOUR KEY ENCRYPTION KEY HERE&quot; override=&quot;false&quot; name=&quot;tds.iris.EncryptionKey&quot;/&gt;</code>.</p>

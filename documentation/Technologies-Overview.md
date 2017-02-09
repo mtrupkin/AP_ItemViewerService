@@ -1,7 +1,7 @@
 # Item Viewer Service Technologies Overview
 
 ## Item Viewer Service Modules
-The item viewer service provides an API to load a single content item and accessibility options in a page. The item and accommodations are specified as URL parameters.
+The item viewer service provides an API to load a single content item and accessibility options in a page. The item and accessibility options are specified as URL parameters.
 The item viewer service is divided into three layers, the App, the Core, and the Data Access Layer or dal.
 Each layer is a Maven submodule that is part of the main item viewer service Maven application.
 
@@ -14,8 +14,9 @@ Spring is used for controllers and scheduled services. The item viewer service u
 
 The controller for loading items is mapped to `/item/itemID`.
 The item ID must match the regex `d+[-]d+`, that is one or more numbers, a dash, and one or more numbers in that order.
-Optional accommodations are specified with the `isaap` URL parameter and are semicolon delimited. Only the accommodation code should be specified. Accommodation type is not specified.
+Optional accessibility are specified with the `isaap` URL parameter and are semicolon delimited. Only the accommodation code should be specified. Accommodation type is not specified.
 For example, the URL to load item 200-12344 with the word list glossary and expandable passages would look like   `http://viewer.smarterbalanced.org/item/200-12344?isaap=TDS_WL_Glossary;TDS_ExpandablePassages1`.
+The accessibility codes are listed in the [Smarter Balanced Accessibility Feature Codes document](http://www.smarterapp.org/documents/ISAAP-AccessibilityFeatureCodes.pdf).
 
 
 The Diagnostic API returns xml formatted diagnostic results per the diagnostic API [requirements](http://www.smarterapp.org/documents/DiagnosticApi.html). The diagnostic API supports levels 0 through 5 as required in the requirements. The diagnostic level is specified as a URL parameter. For example the level 3 diagnostic API would be accessed with http://viewer.smarterbalanced.org/status?level=3.
@@ -27,7 +28,7 @@ The service that polls Amazon Web Services S3 for updated content packages and d
 It is configured with annotations to run every 5 minutes after the previous run of the service has finished.
 
 #### JavaScript
-The item viewer service includes all of the JavaScript from Iris required to display items and accommodations.
+The item viewer service includes all of the JavaScript from Iris required to display items and accessibility.
 
 #### Configuration
 The App layer contains the logging and application configuration files.
@@ -66,12 +67,12 @@ The Smarter Balanced Dictionary is a runtime dependency of the Iris application,
 
 ### Iris
 The Smarter Balanced Iris is used as a Maven WAR overlay to extend the scripts, styling and functionality of the Iris application into the item viewer service.
-The Iris application displays a window for users with a text box where they can enter a JSON token to load an item and accommodations. The item and accommodations are loaded in an iFrame embedded in the page with the text box.
-The iFrame with the items and accommodations is the front end part of the Iris that the item viewer service makes use of. It loads only the iFrame and selects which item and accommodations are loaded from the URL.
+The Iris application displays a window for users with a text box where they can enter a JSON token to load an item and accessibility options. The item and accessibility options are loaded in an iFrame embedded in the page with the text box.
+The iFrame with the items and accessibility options is the front end part of the Iris that the item viewer service makes use of. It loads only the iFrame and selects which item and accessibility options are loaded from the URL.
 
 The item viewer service excludes some files from the Iris WAR overlay. It excludes the Iris web.xml file because it requires different servlet mappings. It excludes the JNA 3.0.9 jar because it causes a dependency conflict with the Operating System Hardware Information library which depends on JNA 4.2.2. Finally it excludes the IrisPages directory because it does not need the page templates it contains.
 
-The item viewer service extends the Iris application by adding its own controllers for loading items and accommodations by URL, and the diagnostic API.
+The item viewer service extends the Iris application by adding its own controllers for loading items and accessibility options by URL, and the diagnostic API.
 In the backend it adds the diagnostic API logic, accommodation code to type lookup, and a service that fetches content packages from Amazon Web Services S3.
 
 

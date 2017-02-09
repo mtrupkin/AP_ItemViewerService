@@ -1,4 +1,4 @@
-Configuration
+#Configuration
 
 ## Item Viewer Configuration
 ### General

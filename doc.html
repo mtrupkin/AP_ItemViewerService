@@ -279,82 +279,105 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h3>Table of Contents</h3>
 <nav id="TOC">
 <ul>
-<li><a href="#configuration">Configuration</a><ul>
+<li><a href="#item-viewer-service-technologies-overview">Item Viewer Service Technologies Overview</a><ul>
+<li><a href="#item-viewer-service-modules">Item Viewer Service Modules</a><ul>
+<li><a href="#app">App</a></li>
+<li><a href="#core">Core</a></li>
+<li><a href="#data-access-layer">Data Access Layer</a></li>
+</ul></li>
+<li><a href="#smarter-balanced-libraries">Smarter Balanced Libraries</a><ul>
+<li><a href="#dictionary">Dictionary</a></li>
+<li><a href="#iris">Iris</a></li>
+</ul></li>
+<li><a href="#third-party-libraries">Third Party Libraries</a><ul>
+<li><a href="#amazon-web-services-java-sdk">Amazon Web Services Java SDK</a></li>
+<li><a href="#apache-commons">Apache Commons</a></li>
+<li><a href="#logback-classic">Logback Classic</a></li>
+<li><a href="#jackson-databind">Jackson Databind</a></li>
+<li><a href="#operating-system-hardware-information">Operating System Hardware Information</a></li>
+<li><a href="#slf4j">SLF4J</a></li>
+<li><a href="#spring-1">Spring</a></li>
+</ul></li>
 <li><a href="#item-viewer-configuration">Item Viewer Configuration</a><ul>
 <li><a href="#general">General</a></li>
 <li><a href="#logging">Logging</a></li>
 </ul></li>
-<li><a href="#tomcat">Tomcat</a></li>
+<li><a href="#tomcat-configuration">Tomcat Configuration</a></li>
 </ul></li>
 <li><a href="#item-viewer-service-manual-setup">Item Viewer Service Manual Setup</a><ul>
 <li><a href="#dependencies">Dependencies</a><ul>
 <li><a href="#compile-time-dependencies">Compile Time Dependencies</a></li>
 <li><a href="#run-time-dependencies">Run Time Dependencies</a></li>
 </ul></li>
-<li><a href="#configuration-1">Configuration</a></li>
-<li><a href="#building-and-running">Building and Running</a><ul>
-<li><a href="#building">Building</a></li>
-<li><a href="#running">Running</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#configuration-2">Configuration</a><ul>
-<li><a href="#item-viewer-configuration-1">Item Viewer Configuration</a><ul>
-<li><a href="#general-1">General</a></li>
-<li><a href="#logging-2">Logging</a></li>
-</ul></li>
-<li><a href="#tomcat-1">Tomcat</a></li>
-</ul></li>
-<li><a href="#item-viewer-service-manual-setup-1">Item Viewer Service Manual Setup</a><ul>
-<li><a href="#dependencies-1">Dependencies</a><ul>
-<li><a href="#compile-time-dependencies-1">Compile Time Dependencies</a></li>
-<li><a href="#run-time-dependencies-1">Run Time Dependencies</a></li>
-</ul></li>
-<li><a href="#configuration-3">Configuration</a></li>
-<li><a href="#building-and-running-1">Building and Running</a><ul>
-<li><a href="#building-1">Building</a></li>
-<li><a href="#running-1">Running</a></li>
-</ul></li>
-</ul></li>
-</ul>
-</nav>
-<ul>
-<li><a href="#configuration">Configuration</a>
-<ul>
-<li><a href="#item-viewer-configuration">Item Viewer Configuration</a>
-<ul>
-<li><a href="#general">General</a></li>
-<li><a href="#logging">Logging</a></li>
-</ul></li>
-<li><a href="#tomcat">Tomcat</a></li>
-</ul></li>
-<li><a href="#item-viewer-service-manual-setup">Item Viewer Service Manual Setup</a>
-<ul>
-<li><a href="#dependencies">Dependencies</a>
-<ul>
-<li><a href="#compile-time-dependencies">Compile Time Dependencies</a></li>
-<li><a href="#run-time-dependencies">Run Time Dependencies</a></li>
-</ul></li>
-<li><a href="#configuration-1">Configuration</a>
-<ul>
+<li><a href="#configuration-1">Configuration</a><ul>
 <li><a href="#dictionary-api">Dictionary API</a></li>
 <li><a href="#aws-container-cluster-information-optional">Aws Container Cluster Information (Optional)</a></li>
 <li><a href="#logging-1">Logging</a></li>
 <li><a href="#local-system">Local System</a></li>
 </ul></li>
-<li><a href="#building-and-running">Building and Running</a>
-<ul>
+<li><a href="#building-and-running">Building and Running</a><ul>
 <li><a href="#building">Building</a></li>
-<li><a href="#running">Running</a></li>
+<li><a href="#running-locally">Running Locally</a></li>
+<li><a href="#running-on-an-ec2-instance">Running on an EC2 Instance</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#tomcat-configuration-1">Tomcat Configuration</a></li>
+<li><a href="#configure-nginx">Configure nginx</a></li>
+<li><a href="#launch-application">Launch Application</a></li>
 </ul></li>
 </ul></li>
 </ul>
-<h1 id="configuration">Configuration</h1>
+</nav>
+<h1 id="item-viewer-service-technologies-overview">Item Viewer Service Technologies Overview</h1>
+<h2 id="item-viewer-service-modules">Item Viewer Service Modules</h2>
+<p>The item viewer service provides an API to load a single content item and accommodations in a page. The item and accommodations are specified as URL parameters. The item viewer service is divided into three layers, the App, the Core, and the Data Access Layer or dal. Each layer is a Maven submodule that is part of the main item viewer service Maven application.</p>
+<h3 id="app">App</h3>
+<p>The App module has the web application frontend parts and application configuration. It contains the web application controllers, JavaScript, page templates, and application configuration files.</p>
+<h4 id="spring">Spring</h4>
+<p>Spring is used for controllers and scheduled services. The item viewer service uses a mixture of xml and annotation configuration for Spring. Controllers use the <code>@RequestMapping</code> annotation to map the item and diagnostic API URLs. The item viewer service servlet is configured with xml and used to map the item page template directory and .jsp file extension.</p>
+<p>The controller for loading items is mapped to <code>/item/itemID</code>. The item ID must match the regex <code>d+[-]d+</code>, that is one or more numbers, a dash, and one or more numbers in that order. Optional accommodations are specified with the <code>isaap</code> URL parameter and are semicolon delimited. Only the accommodation code should be specified. Accommodation type is not specified. For example, the URL to load item 200-12344 with the word list glossary and expandable passages would look like <code>http://viewer.smarterbalanced.org/item/200-12344?isaap=TDS_WL_Glossary;TDS_ExpandablePassages1</code>.</p>
+<p>The Diagnostic API returns xml formatted diagnostic results per the diagnostic API <a href="http://www.smarterapp.org/documents/DiagnosticApi.html">requirements</a>. The diagnostic API supports levels 0 through 5 as required in the requirements. The diagnostic level is specified as a URL parameter. For example the level 3 diagnostic API would be accessed with http://viewer.smarterbalanced.org/status?level=3. The diagnostic API is mapped to /statusLocal. If the Item Viewer is running in an AWS ECS cluster it can be configured to display the diagnostic status for each instance of the Item Viewer running in the cluster. The cluster status is mapped to /status.</p>
+<p>The service that polls Amazon Web Services S3 for updated content packages and downloads them to the local file system is run as a Spring scheduled service. It is configured with annotations to run every 5 minutes after the previous run of the service has finished.</p>
+<h4 id="javascript">JavaScript</h4>
+<p>The item viewer service includes all of the JavaScript from Iris required to display items and accommodations.</p>
+<h4 id="configuration">Configuration</h4>
+<p>The App layer contains the logging and application configuration files.</p>
+<h3 id="core">Core</h3>
+<p>The Core module contains the application’s business logic. It contains the diagnostic API, item request processing logic, and the tool that checks for updated content packages on Amazon S3.</p>
+<h4 id="diagnostic-api">Diagnostic API</h4>
+<p>The Diagnostic API is implemented using the requirements listed in the SmarterApp Web Diagnostic API <a href="http://www.smarterapp.org/documents/DiagnosticApi.html">documentation</a>. It supports five levels of diagnostics; system, configuration, database read, database write, and external providers. The system diagnostic uses the Operating System Hardware Information (OSHI) library to gather information on memory usage and file system space. The configuration diagnostic checks for the existence of the application configuration file and configuration variables. The database read diagnostic makes sure the Iris content path variable is readable, and that it contains content items. The database write diagnostic makes sure that the Iris content directory is writeable, then performs a write and a delete in the content directory. The providers diagnostic checks the status of the word list handler, the black box, the item viewer service API, the Amazon S3 content bucket, and the content packages. It performs an HTTP get request to get the status of the word list handler, black box, and item viewer service API. It uses the Amazon AWS Java SDK to connect to Amazon S3 and get a list of content packages. The diagnostic API can be accessed at /statusLocal?level=&lt;1-5&gt;. Replace the brackets and number with a status level between 1 and 5 inclusive.</p>
+<p>If the Item Viewer is running an an AWS ERS cluster it can be configured to display the diagnostic status of each instance of the Item Viewer in the cluster.</p>
+<h4 id="item-request-translation">Item Request Translation</h4>
+<p>When the item viewer service receives a request for an item the request is translated into a JSON token that the Iris will accept. The item viewer service parses the item bank and key out of the URL as well as any accommodation codes. The Iris requires both the accommodation type and code for each accommodation. The item viewer service only requires codes. A reverse lookup is performed to get the accommodation type for each accommodation code. Finally the item bank and key, and accommodation types and codes are serialized into a JSON token that Iris can parse.</p>
+<h3 id="data-access-layer">Data Access Layer</h3>
+<p>The Data Access Layer contains the classes used to access configuration.</p>
+<h2 id="smarter-balanced-libraries">Smarter Balanced Libraries</h2>
+<h3 id="dictionary">Dictionary</h3>
+<p>The Smarter Balanced Dictionary is a runtime dependency of the Iris application, and therefore the item viewer service application. It provides an API that is used for the dictionary accommodation. The item viewer service requires that it is configured and running.</p>
+<h3 id="iris">Iris</h3>
+<p>The Smarter Balanced Iris is used as a Maven WAR overlay to extend the scripts, styling and functionality of the Iris application into the item viewer service. The Iris application displays a window for users with a text box where they can enter a JSON token to load an item and accommodations. The item and accommodations are loaded in an iFrame embedded in the page with the text box. The iFrame with the items and accommodations is the front end part of the Iris that the item viewer service makes use of. It loads only the iFrame and selects which item and accommodations are loaded from the URL.</p>
+<p>The item viewer service excludes some files from the Iris WAR overlay. It excludes the Iris web.xml file because it requires different servlet mappings. It excludes the JNA 3.0.9 jar because it causes a dependency conflict with the Operating System Hardware Information library which depends on JNA 4.2.2. Finally it excludes the IrisPages directory because it does not need the page templates it contains.</p>
+<p>The item viewer service extends the Iris application by adding its own controllers for loading items and accommodations by URL, and the diagnostic API. In the backend it adds the diagnostic API logic, accommodation code to type lookup, and a service that fetches content packages from Amazon Web Services S3.</p>
+<h2 id="third-party-libraries">Third Party Libraries</h2>
+<h3 id="amazon-web-services-java-sdk">Amazon Web Services Java SDK</h3>
+<p>The Amazon Web Services (AWS) Java SDK is used to connect to the AWS S3 service. It is used for authentication, and S3 file information and downloads.</p>
+<h3 id="apache-commons">Apache Commons</h3>
+<p>The Apache Commons IO library is used in the data access layer to take the file stream provided by the AWS Java SDK S3 client and write the file to disk. It is used to transfer and delete files when updating the content on the local file system.</p>
+<h3 id="logback-classic">Logback Classic</h3>
+<p>Logback classic is the logging framework used by the Iris.</p>
+<h3 id="jackson-databind">Jackson Databind</h3>
+<p>Jackson databind is used to serialize the data from the API call to item viewer service into a token that can be sent to the Iris.</p>
+<h3 id="operating-system-hardware-information">Operating System Hardware Information</h3>
+<p>The Operating system Hardware Information (OSHI) library is used by the system diagnostic to get information on total memory, memory usage, and file system size, usage and type.</p>
+<h3 id="slf4j">SLF4J</h3>
+<p>SLF4J is the logging facade used by Iris. It can be bound to a number of different logging frameworks. In the case of Iris and the item viewer service the logback classic logging framework is used.</p>
+<h3 id="spring-1">Spring</h3>
+<p>Spring is the web application framework used in Iris and other Smarter Balanced applications. The Item Viewer Service uses version 3.2.1 because that is the same version Iris uses. #Configuration</p>
 <h2 id="item-viewer-configuration">Item Viewer Configuration</h2>
 <h3 id="general">General</h3>
-<p>The Item Viewer Service config file is located in <code>app/src/main/resources/settings-mysql.xml</code> Most of the vlaues are carried over from Iris. The following options must be configured in the settings-mysql.xml config file for the Item Viewer to function correctly. - <code>iris.ContentPath</code> must be set to the location of the content package on the local filesystem. - <code>iris.DictionaryUrl</code> must be set to the url of the <a href="https://github.com/SmarterApp/TDS_Dictionary">dictionary API</a>. - <code>AwsRegion</code> Set this to the AWS region the Ite Viewer is running in if it is running on AWS. - <code>AwsClusterName</code> Set this to the AWS ECS cluster the Item Viewer Service is running in if it is running on AWS ECS.</p>
+<p>The Item Viewer Service config file is located in <code>app/src/main/resources/settings-mysql.xml</code> Most of the values are carried over from Iris. The following options must be configured in the settings-mysql.xml config file for the Item Viewer to function correctly. - <code>iris.ContentPath</code> must be set to the location of the content package on the local filesystem. - <code>iris.DictionaryUrl</code> must be set to the url of the <a href="https://github.com/SmarterApp/TDS_Dictionary">dictionary API</a>. - <code>AwsRegion</code> Set this to the AWS region the Ite Viewer is running in if it is running on AWS. - <code>AwsClusterName</code> Set this to the AWS ECS cluster the Item Viewer Service is running in if it is running on AWS ECS.</p>
 <h3 id="logging">Logging</h3>
 <p>The Item viewer service uses Logback Classic bound to SLF4J for logging. The Logging configuration file is <code>app/src/main/resources/logback.xml</code>. The config file included will log to stdout and <code>/home/tomcat7/itemviewerservice.log</code>. Details for configuring the log output can be found in the loback classic <a href="https://logback.qos.ch/manual/configuration.html">documentation</a>.</p>
-<h2 id="tomcat">Tomcat</h2>
+<h2 id="tomcat-configuration">Tomcat Configuration</h2>
 <p>The Item Viewer must be run in Apache Tomcat 7 or newer.</p>
 <p>In order to run correctly the following Tomcat configuration needs to be set.</p>
 <p>Set a 25 character alphanumeric numeric encryption key for Iris in $TOMCAT_HOME/conf/context.xml under the context element. The entry follows the form <code>&lt;Parameter value=&quot;YOUR KEY ENCRYPTION KEY HERE&quot; override=&quot;false&quot; name=&quot;tds.iris.EncryptionKey&quot;/&gt;</code>.</p>
@@ -383,9 +406,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The item viewer service configuration file is located at <code>app/src/main/resources/settings-mysql.xml</code>.</p>
 <p>The <code>iris.ContentPath</code> variable in the settings-mysql.xml file needs to be set to the local directory where the content packages are going to be stored. If this directory does not exist, or the application can not access it, it will fail to launch.</p>
 <p>Iris requires a 25 character alphanumeric numeric encryption key set as a parameter in $TOMCAT_HOME/conf/context.xml under the context element. The entry follows the form <code>&lt;Parameter value=&quot;YOUR KEY ENCRYPTION KEY HERE&quot; override=&quot;false&quot; name=&quot;tds.iris.EncryptionKey&quot;/&gt;</code>.</p>
-<h5 id="dictionary-api">Dictionary API</h5>
+<h3 id="dictionary-api">Dictionary API</h3>
 <p>In order to use the dictionary you need to set the <code>iris.DictionaryUrl</code> value in the settings-mysql.xml config file for the Iris. The dictionary should be a running instance of the <a href="https://github.com/SmarterApp/TDS_Dictionary">TDS_Dictionary application</a>.</p>
-<p>The dictionary API call is made as a cross origin request. A CORS filter needs to be added to the Tomcat $TOMCAT_HOME/conf/web.xml file.</p>
+<p>The dictionary API call is made as a cross origin request. A CORS filter needs to be added to the Tomcat <code>$TOMCAT_HOME/conf/web.xml file</code>.</p>
 <div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;filter&gt;</span>
   <span class="kw">&lt;filter-name&gt;</span>CorsFilter<span class="kw">&lt;/filter-name&gt;</span>
   <span class="kw">&lt;filter-class&gt;</span>org.apache.catalina.filters.CorsFilter<span class="kw">&lt;/filter-class&gt;</span>
@@ -395,55 +418,99 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   <span class="kw">&lt;url-pattern&gt;</span>/*<span class="kw">&lt;/url-pattern&gt;</span>
 <span class="kw">&lt;/filter-mapping&gt;</span></code></pre></div>
 <p>Tomcat has detailed <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/filter.html#CORS_Filter">documentation</a> on setting up CORS filtering. Please refer to it if you want to set up a more detailed filter.</p>
-<h5 id="aws-container-cluster-information-optional">Aws Container Cluster Information (Optional)</h5>
+<h3 id="aws-container-cluster-information-optional">Aws Container Cluster Information (Optional)</h3>
 <p>The “AwsRegion” and “AwsClusterName” keys are used if the application is being run outside of an AWS ERS cluster. If you are running the Item Viewer locally you can ignore these. Please note that the /status url will not work if the Item Viewer is being run outside of an AWS ECS cluster. Use /statusLocal for local diagnostics.</p>
-<h4 id="logging-1">Logging</h4>
+<h3 id="logging-1">Logging</h3>
 <p>The item viewer service uses <a href="http://www.slf4j.org/">SLF4J</a> bound to <a href="http://logback.qos.ch/">Logback Classic</a> for logging. The log settings are found in logback.xml. For basic logging to a file you will need to set the file location for the file appender. For a full reference on configuring the log output levels and locations please refer to the Logback Classic <a href="http://logback.qos.ch/manual/configuration.html">documentation</a>.</p>
-<h4 id="local-system">Local System</h4>
+<h3 id="local-system">Local System</h3>
 <p>The application requires read permissions to the Iris content directory specified in settings-mysql.xml.</p>
 <h2 id="building-and-running">Building and Running</h2>
 <h3 id="building">Building</h3>
 <p>To build the item viewer run <code>mvn install</code> in the top level project directory. The compiled WAR file will be generated in <code>app/target/itemviwerservice.war</code>.</p>
-<h3 id="running">Running</h3>
-<p>Deploy the WAR file to Apache Tomcat by placing the itemviewerservice.war file in your tomcat webapps directory, then starting Tomcat.</p>
-<h1 id="configuration-2">Configuration</h1>
-<h2 id="item-viewer-configuration-1">Item Viewer Configuration</h2>
-<h3 id="general-1">General</h3>
-<p>The Item Viewer Service config file is located in <code>app/src/main/resources/settings-mysql.xml</code> Most of the vlaues are carried over from Iris. The following options must be configured in the settings-mysql.xml config file for the Item Viewer to function correctly. - <code>iris.ContentPath</code> must be set to the location of the content package on the local filesystem. - <code>iris.DictionaryUrl</code> must be set to the url of the <a href="https://github.com/SmarterApp/TDS_Dictionary">dictionary API</a>. - <code>AwsRegion</code> Set this to the AWS region the Ite Viewer is running in if it is running on AWS. - <code>AwsClusterName</code> Set this to the AWS ECS cluster the Item Viewer Service is running in if it is running on AWS ECS.</p>
-<h3 id="logging-2">Logging</h3>
-<p>The Item viewer service uses Logback Classic bound to SLF4J for logging. The Logging configuration file is <code>app/src/main/resources/logback.xml</code>. The config file included will log to stdout and <code>/home/tomcat7/itemviewerservice.log</code>. Details for configuring the log output can be found in the loback classic <a href="https://logback.qos.ch/manual/configuration.html">documentation</a>.</p>
-<h2 id="tomcat-1">Tomcat</h2>
-<p>The Item Viewer must be run in Apache Tomcat 7 or newer.</p>
-<p>In order to run correctly the following Tomcat configuration needs to be set.</p>
-<p>Set a 25 character alphanumeric numeric encryption key for Iris in $TOMCAT_HOME/conf/context.xml under the context element. The entry follows the form <code>&lt;Parameter value=&quot;YOUR KEY ENCRYPTION KEY HERE&quot; override=&quot;false&quot; name=&quot;tds.iris.EncryptionKey&quot;/&gt;</code>.</p>
-<p>The dictionary API call is made as a cross origin request. A CORS filter must be added to <code>$TOMCAT_HOME/conf/web.xml</code>.</p>
-<div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;filter&gt;</span>
-  <span class="kw">&lt;filter-name&gt;</span>CorsFilter<span class="kw">&lt;/filter-name&gt;</span>
-  <span class="kw">&lt;filter-class&gt;</span>org.apache.catalina.filters.CorsFilter<span class="kw">&lt;/filter-class&gt;</span>
-<span class="kw">&lt;/filter&gt;</span>
-<span class="kw">&lt;filter-mapping&gt;</span>
-  <span class="kw">&lt;filter-name&gt;</span>CorsFilter<span class="kw">&lt;/filter-name&gt;</span>
-  <span class="kw">&lt;url-pattern&gt;</span>/*<span class="kw">&lt;/url-pattern&gt;</span>
-<span class="kw">&lt;/filter-mapping&gt;</span></code></pre></div>
-<h1 id="item-viewer-service-manual-setup-1">Item Viewer Service Manual Setup</h1>
-<p>To build and run the item viewer service on your local machine you will need the following.</p>
-<h2 id="dependencies-1">Dependencies</h2>
-<h3 id="compile-time-dependencies-1">Compile Time Dependencies</h3>
-<p>Compile time dependencies are built into the Maven POM file. Java 7 is required to build and run the Item Viewer Service.</p>
-<p>The Item Viewer Service depends on the Iris package of TDS_Student.</p>
-<h3 id="run-time-dependencies-1">Run Time Dependencies</h3>
+<h3 id="running-locally">Running Locally</h3>
+<p>Deploy the WAR file to Apache Tomcat by placing the itemviewerservice.war file in your tomcat webapps directory. Restart Tomcat.</p>
+<h3 id="running-on-an-ec2-instance">Running on an EC2 Instance</h3>
+<p>If you are running the Item Viewer in an EC2 instance you will need to configure it to</p>
+<h4 id="aws-prerequisites">AWS Prerequisites</h4>
 <ul>
-<li>Apache Tomcat 7 or newer</li>
-<li>Smarter Balanced Dictionary API access</li>
-<li>Read access to the local file system</li>
+<li>Create a security group to allow access to certain ports:</li>
 </ul>
-<h2 id="configuration-3">Configuration</h2>
-<p>The item viewer service configuration file is located at <code>app/src/main/resources/settings-mysql.xml</code>.</p>
-<p>The <code>iris.ContentPath</code> variable in the settings-mysql.xml file needs to be set to the local directory where the content packages are going to be stored. If this directory does not exist, or the application can not access it, it will fail to launch.</p>
-<p>Iris requires a 25 character alphanumeric numeric encryption key set as a parameter in $TOMCAT_HOME/conf/context.xml under the context element. The entry follows the form <code>&lt;Parameter value=&quot;YOUR KEY ENCRYPTION KEY HERE&quot; override=&quot;false&quot; name=&quot;tds.iris.EncryptionKey&quot;/&gt;</code>.</p>
-<h5 id="dictionary-api-1">Dictionary API</h5>
-<p>In order to use the dictionary you need to set the <code>iris.DictionaryUrl</code> value in the settings-mysql.xml config file for the Iris. The dictionary should be a running instance of the <a href="https://github.com/SmarterApp/TDS_Dictionary">TDS_Dictionary application</a>.</p>
-<p>The dictionary API call is made as a cross origin request. A CORS filter needs to be added to the Tomcat $TOMCAT_HOME/conf/web.xml file.</p>
+<h5 id="inbound">Inbound</h5>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Protocol</th>
+<th>Port Range</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HTTP</td>
+<td>TCP</td>
+<td>80</td>
+<td>0.0.0.0/0</td>
+</tr>
+<tr class="even">
+<td>SSH</td>
+<td>TCP</td>
+<td>22</td>
+<td>0.0.0.0/0</td>
+</tr>
+</tbody>
+</table>
+<h5 id="outbound">Outbound</h5>
+<table>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Protocol</th>
+<th>Port Range</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>All Traffic</td>
+<td>All</td>
+<td>All</td>
+<td>0.0.0.0/0</td>
+</tr>
+</tbody>
+</table>
+<h4 id="aws-setup">AWS Setup</h4>
+<p>Launch an Amazon Web Services instance with the following configurations:</p>
+<ol type="1">
+<li>Use AMI: Ubuntu Server 14.04 LTS (HVM), SSD Volume Type (ami-d732f0b7).</li>
+<li>Select a suitable instance size.</li>
+<li>Select <code>Next: Configure Instance Details</code></li>
+<li>Add the IAM role that grants S3 bucket access</li>
+<li>Select <code>Review and Launch</code>.</li>
+<li>Next to <code>Security Groups</code>, select <code>Edit Security Groups</code> and add the security group created in the <strong>Prerequisites</strong> section.</li>
+<li>Launch your instance.</li>
+</ol>
+<h4 id="dependency-installation">Dependency Installation</h4>
+<p>In the AWS instance launched, update packages: <code>apt-get update</code></p>
+<ul>
+<li><p>Install openjdk-7: <code>apt-get install openjdk-7-jdk</code></p></li>
+<li><p>Install tomcat7 and tomcat7-admin: <code>apt-get install tomcat7 tomcat7-admin</code></p></li>
+<li><p>Install nginx for port forwarding: <code>apt-get install nginx</code></p></li>
+</ul>
+<h3 id="installation">Installation</h3>
+<p>After the AWS instance launches: - Update packages: <code>apt-get update</code></p>
+<ul>
+<li><p>Install openjdk-7: <code>apt-get install openjdk-7-jdk</code></p></li>
+<li><p>Install tomcat7 and tomcat7-admin: <code>apt-get install tomcat7 tomcat7-admin</code></p></li>
+<li><p>Install nginx for port forwarding: <code>apt-get install nginx</code></p></li>
+</ul>
+<h3 id="tomcat-configuration-1">Tomcat Configuration</h3>
+<ul>
+<li><p>Create a directory for tomcat give it permissions:</p>
+<pre><code>mkdir -p /home/tomcat7/content
+chown -R tomcat7:tomcat7 /home/tomcat7
+chown -R tomcat7:tomcat7 /usr/share/tomcat7</code></pre></li>
+<li><p>Update the tomcat configuration files as mentioned above by adding the following to <code>/etc/tomcat7/web.xml</code>:</p>
 <div class="sourceCode"><pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;filter&gt;</span>
   <span class="kw">&lt;filter-name&gt;</span>CorsFilter<span class="kw">&lt;/filter-name&gt;</span>
   <span class="kw">&lt;filter-class&gt;</span>org.apache.catalina.filters.CorsFilter<span class="kw">&lt;/filter-class&gt;</span>
@@ -451,18 +518,24 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">&lt;filter-mapping&gt;</span>
   <span class="kw">&lt;filter-name&gt;</span>CorsFilter<span class="kw">&lt;/filter-name&gt;</span>
   <span class="kw">&lt;url-pattern&gt;</span>/*<span class="kw">&lt;/url-pattern&gt;</span>
-<span class="kw">&lt;/filter-mapping&gt;</span></code></pre></div>
-<p>Tomcat has detailed <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/filter.html#CORS_Filter">documentation</a> on setting up CORS filtering. Please refer to it if you want to set up a more detailed filter.</p>
-<h5 id="aws-container-cluster-information-optional-1">Aws Container Cluster Information (Optional)</h5>
-<p>The “AwsRegion” and “AwsClusterName” keys are used if the application is being run outside of an AWS ERS cluster. If you are running the Item Viewer locally you can ignore these. Please note that the /status url will not work if the Item Viewer is being run outside of an AWS ECS cluster. Use /statusLocal for local diagnostics.</p>
-<h4 id="logging-3">Logging</h4>
-<p>The item viewer service uses <a href="http://www.slf4j.org/">SLF4J</a> bound to <a href="http://logback.qos.ch/">Logback Classic</a> for logging. The log settings are found in logback.xml. For basic logging to a file you will need to set the file location for the file appender. For a full reference on configuring the log output levels and locations please refer to the Logback Classic <a href="http://logback.qos.ch/manual/configuration.html">documentation</a>.</p>
-<h4 id="local-system-1">Local System</h4>
-<p>The application requires read permissions to the Iris content directory specified in settings-mysql.xml.</p>
-<h2 id="building-and-running-1">Building and Running</h2>
-<h3 id="building-1">Building</h3>
-<p>To build the item viewer run <code>mvn install</code> in the top level project directory. The compiled WAR file will be generated in <code>app/target/itemviwerservice.war</code>.</p>
-<h3 id="running-1">Running</h3>
-<p>Deploy the WAR file to Apache Tomcat by placing the itemviewerservice.war file in your tomcat webapps directory, then starting Tomcat.</p>
+<span class="kw">&lt;/filter-mapping&gt;</span></code></pre></div></li>
+</ul>
+<h3 id="configure-nginx">Configure nginx</h3>
+<p>Replace <code>/etc/nginx/sites-available/default</code> with the following text (requires root permissions):</p>
+<pre><code>server {
+    listen 80;
+    location / {
+        proxy_pass http://localhost:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection keep-alive;
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}</code></pre>
+<h3 id="launch-application">Launch Application</h3>
+<p>Restart tomcat7 and nginx:</p>
+<p><code>sudo service tomcat7 restart</code></p>
+<p><code>sudo service nginx restart</code></p>
 </body>
 </html>

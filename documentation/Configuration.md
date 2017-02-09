@@ -3,12 +3,12 @@
 ## Item Viewer Configuration
 ### General
 The Item Viewer Service config file is located in `app/src/main/resources/settings-mysql.xml`
-Most of the vlaues are carried over from Iris.
+Most of the values are carried over from Iris.
 The following options must be configured in the settings-mysql.xml config file for the Item Viewer to function correctly.
-- `iris.ContentPath` must be set to the location of the content package on the local filesystem.
-- `iris.DictionaryUrl` must be set to the url of the [dictionary API](https://github.com/SmarterApp/TDS_Dictionary).
-- `AwsRegion` Set this to the AWS region the Ite Viewer is running in if it is running on AWS.
-- `AwsClusterName` Set this to the AWS ECS cluster the Item Viewer Service is running in if it is running on AWS ECS.
+-  `iris.ContentPath` must be set to the location of the content package on the local filesystem.
+-  `iris.DictionaryUrl` must be set to the url of the [dictionary API](https://github.com/SmarterApp/TDS_Dictionary).
+-  `AwsRegion` Set this to the AWS region the Ite Viewer is running in if it is running on AWS.
+-  `AwsClusterName` Set this to the AWS ECS cluster the Item Viewer Service is running in if it is running on AWS ECS.
 
 ### Logging
 The Item viewer service uses Logback Classic bound to SLF4J for logging.
@@ -16,7 +16,7 @@ The Logging configuration file is `app/src/main/resources/logback.xml`.
 The config file included will log to stdout and `/home/tomcat7/itemviewerservice.log`.
 Details for configuring the log output can be found in the loback classic [documentation](https://logback.qos.ch/manual/configuration.html).
 
-## Tomcat
+## Tomcat Configuration
 The Item Viewer must be run in Apache Tomcat 7 or newer.
 
 In order to run correctly the following Tomcat configuration needs to be set.

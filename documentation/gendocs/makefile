@@ -1,6 +1,6 @@
-inputFiles= ../Technologies-Overview.md ../Configuration.md ../ItemViewerService-Manual-Setup.md
-htmlOutput= ../../doc.html
-pdfOutput= ../../doc.pdf
+inputFiles = ../Technologies-Overview.md ../Configuration.md ../ItemViewerService-Manual-Setup.md
+htmlOutput = ../../doc.html
+pdfOutput = ../../doc.pdf
 
 
 all: html pdf

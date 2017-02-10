@@ -1,4 +1,4 @@
-# smarter-balanced-item-viewer [![Build Status](https://travis-ci.org/osu-cass/smarter-balanced-item-viewer.svg?branch=master)](https://travis-ci.org/osu-cass/smarter-balanced-item-viewer)
+# smarter-balanced-item-viewer [![Build Status](https://travis-ci.org/osu-cass/TDS_ItemRenderer.svg?branch=master)](https://travis-ci.org/osu-cass/TDS_ItemRenderer)
 
 Smarter Balanced Item Viewer Service 
 

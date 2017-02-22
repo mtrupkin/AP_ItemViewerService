@@ -44,7 +44,7 @@ public class RenderItemController {
     ModelAndView model = new ModelAndView();
     model.setViewName("item");
     model.addObject("token", token);
-    model.addObject("item", itemId);
+    model.addObject("item", itemArr[0]);
     return model;
   }
 
@@ -70,7 +70,7 @@ public class RenderItemController {
     ModelAndView model = new ModelAndView();
     model.setViewName("item");
     model.addObject("token", token);
-    model.addObject("item", itemIds);
+    model.addObject("item", itemIds[0]);
     return model;
   }
 

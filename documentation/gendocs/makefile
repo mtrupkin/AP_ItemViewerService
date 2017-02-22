@@ -1,8 +1,8 @@
-inputFiles = ../Technologies-Overview.md ../Configuration.md ../ItemViewerService-Manual-Setup.md
+inputFiles = ../Technologies-Overview.md ../Configuration.md ../Loading-Items.md ../ItemViewerService-Manual-Setup.md
 htmlOutput = ../../doc.html
 pdfOutput = ../../doc.pdf
 htmlOptions = -H style.html --toc -V docheader:"Item Viewer Service" --template=default.html5
-pdfOptions = --toc --listings --template=default.latex -V title:"Item Viewer Service" -V monofont:"beramono" -V geometry:margin=1in --latex-engine=pdflatex
+pdfOptions = --toc --listings --template=default.latex -V title:"Item Viewer Service" -V monofont:"beramono" -V geometry:margin=1in -V urlcolor:blue --latex-engine=pdflatex
 
 all: html pdf
 

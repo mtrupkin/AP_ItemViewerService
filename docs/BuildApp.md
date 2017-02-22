@@ -1,18 +1,18 @@
 
-## Build
+# Build
 Item Viewer Service API requires content before running. 
 
 There is a two-step process using docker. The base app without content needs 
 to be created as a docker image called code. Then we combine the code image 
 with the content package using another dockerfile. 
 
-### Before starting build
+## Before starting build
 Locate the dockerfile.stage and dockerfile.prod files
 from github repo, navigate to deployScripts
 
-### Using a previous docker code image
+## Using a previous docker code image
 
-#### Docker
+### Docker
 1. Navigate to directory containing dockerfiles
 2. Get docker code repo for stage/prod, run `docker pull reponame:{tag}`
     1. Example stage: run `docker pull xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:stage`
@@ -32,5 +32,5 @@ from github repo, navigate to deployScripts
 7. Go to [localhost:8012](http://localhost:8012)
 
 
-### Deploy Item Viewer Service app
+## Deploy Item Viewer Service app
 1. see [Publish Docker](#publish-docker-to-aws)

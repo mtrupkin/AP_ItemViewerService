@@ -1,4 +1,4 @@
-# AP_ItemViewerService [![Build Status](https://travis-ci.org/osu-cass/TDS_ItemRenderer.svg?branch=master)](https://travis-ci.org/osu-cass/TDS_ItemRenderer)
+# AP_ItemViewerService [![Build Status](https://travis-ci.org/osu-cass/AP_ItemViewerService.svg?branch=master)](https://travis-ci.org/osu-cass/AP_ItemViewerService)
 
 Smarter Balanced Item Viewer Service 
 

@@ -1,0 +1,4 @@
+FROM itemviewerservicecode:prod
+ARG source=content/
+ARG contentStore=/home/tomcat7/content/
+COPY $source $contentStore

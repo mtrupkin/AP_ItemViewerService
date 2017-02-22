@@ -18,15 +18,17 @@ public class TokenModel {
   /**
    * Instantiates a new Token model.
    *
-   * @param item           the item
+   * @param itemIds        items to represent in the token
    * @param accommodations the accommodations for the item
    */
-  public TokenModel(String item, List<AccommodationModel> accommodations) {
+  public TokenModel(String[] itemIds, List<AccommodationModel> accommodations) {
     this.items = new ArrayList<>();
-    HashMap<String, String> itemhash = new HashMap<>();
-    itemhash.put("id", item);
-    itemhash.put("response", "");
-    this.items.add(itemhash);
+    for (String item : itemIds) {
+      HashMap<String, String> itemhash = new HashMap<>();
+      itemhash.put("id","I-" + item);
+      itemhash.put("response", "");
+      this.items.add(itemhash);
+    }
     this.accommodations = accommodations;
   }
 

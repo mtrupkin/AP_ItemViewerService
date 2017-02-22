@@ -66,6 +66,10 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>itemviewerservice</servlet-name>
+        <url-pattern>/items</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>itemviewerservice</servlet-name>
         <url-pattern>/status</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

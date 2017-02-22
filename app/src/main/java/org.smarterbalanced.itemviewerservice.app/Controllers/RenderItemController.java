@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class RenderItemController {
 
   /**
-   * Returns content.
+   * Loads a single item.
    *
    * @param itemId             Item bank and item ID separated by a "-"
    * @param accommodationCodes Feature codes delimited by semicolons.
@@ -35,14 +35,44 @@ public class RenderItemController {
   ) {
     //Request is in the format
     String[] codes = accommodationCodes.split(";");
-    ItemRequestModel item = new ItemRequestModel("I-" + itemId, codes);
+    String[] itemArr = {itemId};
+    //The item model can take in multiple items.
+    // In our case we just need to load 1 item so we place the item requested into an array.
+    ItemRequestModel item = new ItemRequestModel(itemArr, codes);
 
     String token = item.generateJsonToken();
     ModelAndView model = new ModelAndView();
     model.setViewName("item");
     model.addObject("token", token);
-    model.addObject("item", itemId);
+    model.addObject("item", itemArr[0]);
     return model;
   }
+
+  /**
+   * Loads multiple items.
+   *
+   * @param itemIds            Array of items in the format "ItemBank-ItemID"
+   * @param accommodationCodes Feature codes delimited by semicolons.
+   * @return content object.
+   */
+  @RequestMapping(value = "/items", method = RequestMethod.GET)
+  @ResponseBody
+  public ModelAndView getContent(@RequestParam(value = "ids", required = true) String[] itemIds,
+                                 @RequestParam(value = "isaap", required = false,
+                                         defaultValue = "")
+                                         String accommodationCodes
+  ) {
+    //Request is in the format
+    String[] codes = accommodationCodes.split(";");
+    ItemRequestModel item = new ItemRequestModel(itemIds, codes);
+
+    String token = item.generateJsonToken();
+    ModelAndView model = new ModelAndView();
+    model.setViewName("item");
+    model.addObject("token", token);
+    model.addObject("item", itemIds[0]);
+    return model;
+  }
+
 
 }

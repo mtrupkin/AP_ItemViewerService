@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class ItemRequestModel {
 
-  private final String item;
+  private final String[] items;
   private final String[] featureCodes;
   private List<AccommodationModel> accommodations;
   private static final Logger logger = LoggerFactory.getLogger(ItemRequestModel.class);
@@ -24,25 +24,13 @@ public class ItemRequestModel {
   /**
    * Instantiates a new Item model.
    *
-   * @param item         The item requested
+   * @param items         The items requested
    * @param featureCodes Accessibility feature codes
    */
-  public ItemRequestModel(String item, String[] featureCodes) {
-    this.item = item;
+  public ItemRequestModel(String[] items, String[] featureCodes) {
+    this.items = items;
     this.featureCodes = featureCodes;
     this.accommodations = new ArrayList<>();
-  }
-
-  private Boolean itemExists() {
-    String irisContentPath;
-    try {
-      irisContentPath = SettingsReader.readIrisContentPath();
-    } catch (Exception e) {
-      logger.warn("Unable to load iris content path");
-      return false;
-    }
-    File item = new File(irisContentPath + "/" + "Items" );
-    return false;
   }
 
   private void buildAccommodations() {
@@ -61,7 +49,7 @@ public class ItemRequestModel {
           accomms.put(type, accomCodes);
         }
       } else {
-        logger.info("Unknown accommodation code requested for item " + this.item + " code: "
+        logger.info("Unknown accommodation code requested for item " + this.items[0] + " code: "
                 + code);
       }
     }
@@ -83,7 +71,7 @@ public class ItemRequestModel {
     ObjectMapper mapper = new ObjectMapper();
     buildAccommodations();
     String json;
-    TokenModel token = new TokenModel(this.item, this.accommodations);
+    TokenModel token = new TokenModel(this.items, this.accommodations);
     try {
       json = mapper.writer().writeValueAsString(token);
     } catch (Exception e) {
@@ -93,4 +81,3 @@ public class ItemRequestModel {
     return json;
   }
 }
-

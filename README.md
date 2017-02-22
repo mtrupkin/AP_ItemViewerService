@@ -1,4 +1,4 @@
-# smarter-balanced-item-viewer [![Build Status](https://travis-ci.org/osu-cass/smarter-balanced-item-viewer.svg?branch=master)](https://travis-ci.org/osu-cass/smarter-balanced-item-viewer)
+# AP_ItemViewerService [![Build Status](https://travis-ci.org/osu-cass/AP_ItemViewerService.svg?branch=master)](https://travis-ci.org/osu-cass/AP_ItemViewerService)
 
 Smarter Balanced Item Viewer Service 
 
@@ -13,7 +13,7 @@ Smarter Balanced Item Viewer Service
 6. Submit a pull request :smile:
 
 ## Installation
-1. Clone the repo: `git clone https://github.com/osu-cass/smarter-balanced-item-viewer.git`
+1. Clone the repo
 2. Navigate into the directory and build: `cd smarter-balanced-item-viewer && mvn clean install`
 
 ## License

@@ -1,4 +1,4 @@
-inputFiles = ../Technologies-Overview.md ../Configuration.md ../ItemViewerService-Manual-Setup.md
+inputFiles = ../Technologies-Overview.md ../Configuration.md ../ItemViewerService-Manual-Setup.md ../BuildApp.md ../Docker.md
 htmlOutput = ../../doc.html
 pdfOutput = ../../doc.pdf
 htmlOptions = -H style.html --toc -V docheader:"Item Viewer Service" --template=default.html5

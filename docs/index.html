@@ -563,7 +563,7 @@ chown -R tomcat7:tomcat7 /usr/share/tomcat7</code></pre></li>
 <h2 id="using-a-previous-docker-code-image">Using a previous docker code image</h2>
 <h3 id="docker">Docker</h3>
 <ol type="1">
-<li>Navigate to directory containing dockerfiles</li>
+<li>Navigate to directory containing dockerfiles. If you cloned the Item Viewer Service git repo this will be the DeployScripts directory.</li>
 <li>Get docker code repo for stage/prod, run <code>docker pull reponame:{tag}</code>
 <ol type="1">
 <li>Example stage: run <code>docker pull xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:stage</code></li>
@@ -584,10 +584,10 @@ chown -R tomcat7:tomcat7 /usr/share/tomcat7</code></pre></li>
 <li>Example stage: run <code>docker build -t itemviewerserviceapp:stage -f Dockerfile.stage .</code></li>
 <li>Example production: run <code>docker build -t itemviewerserviceapp:prod -f Dockerfile.prod .</code></li>
 </ol></li>
-<li>Docker Run app , run <code>docker exec -it -p 8012:8080 itemviewerserviceapp:{tag}</code>
+<li>Docker Run app , run <code>docker run -it -p 8012:8080 itemviewerserviceapp:{tag}</code>
 <ol type="1">
-<li>Example stage: run <code>docker exec -it -p 8012:8080 itemviewerserviceapp:stage</code></li>
-<li>Example production: run <code>docker exec -it -p 8012:8080 itemviewerserviceapp:prod</code></li>
+<li>Example stage: run <code>docker run -it -p 8012:8080 itemviewerserviceapp:stage</code></li>
+<li>Example production: run <code>docker run -it -p 8012:8080 itemviewerserviceapp:prod</code></li>
 </ol></li>
 <li>Go to <a href="http://localhost:8012">localhost:8012</a></li>
 </ol>

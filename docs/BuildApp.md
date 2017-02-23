@@ -13,7 +13,8 @@ from github repo, navigate to deployScripts
 ## Using a previous docker code image
 
 ### Docker
-1. Navigate to directory containing dockerfiles
+1. Navigate to directory containing dockerfiles.
+If you cloned the Item Viewer Service git repo this will be the DeployScripts directory.
 2. Get docker code repo for stage/prod, run `docker pull reponame:{tag}`
     1. Example stage: run `docker pull xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:stage`
     2. Example producation: run `docker pull xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:prod`
@@ -26,11 +27,12 @@ from github repo, navigate to deployScripts
 5. Docker build, run `docker build -t itemviewerserviceapp:{tag} -f Dockerfile.{tag} .`
     1. Example stage: run `docker build -t itemviewerserviceapp:stage -f Dockerfile.stage .`
     2. Example production: run `docker build -t itemviewerserviceapp:prod -f Dockerfile.prod .`
-6. Docker Run app , run `docker exec -it -p 8012:8080 itemviewerserviceapp:{tag}`
-    1. Example stage: run `docker exec -it -p 8012:8080 itemviewerserviceapp:stage`
-    2. Example production: run `docker exec -it -p 8012:8080 itemviewerserviceapp:prod`
+6. Docker Run app , run `docker run -it -p 8012:8080 itemviewerserviceapp:{tag}`
+    1. Example stage: run `docker run -it -p 8012:8080 itemviewerserviceapp:stage`
+    2. Example production: run `docker run -it -p 8012:8080 itemviewerserviceapp:prod`
 7. Go to [localhost:8012](http://localhost:8012)
 
 
 ## Deploy Item Viewer Service app
 1. see [Publish Docker](#publish-docker-to-aws)
+

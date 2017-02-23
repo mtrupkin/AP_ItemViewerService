@@ -20,7 +20,7 @@ If you cloned the Item Viewer Service git repo this will be the DeployScripts di
     2. Example producation: run `docker pull xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:prod`
 3. Docker tag code, run `docker tag reponame:{tag} itemviewerservicecode:{tag}`
     1. Example stage: run `docker tag xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:stage itemviewerservicecode:stage`
-    2. Example production: run `docker pull xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:prod itemviewerservicecode:prod`
+    2. Example production: run `docker tag xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:prod itemviewerservicecode:prod`
 4. place content within dockerfile directory
     1. Content needs to be unzipped
     2. content directory root level needs Items directory

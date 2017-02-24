@@ -23,3 +23,6 @@ out/
 #Log files
 *.log
 *log.lck
+
+# Jmeter
+/jmeter/Results

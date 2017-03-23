@@ -43,11 +43,24 @@
         }
     };
 
+    var comments = function(ev){
+        var currentPage = ContentManager.getCurrentPage();
+        var currentItem = ContentManager.getCurrentEntity();
+
+        if (currentPage && TDS.Notes && currentItem) {
+            var itemId = getItemId(currentItem);
+            TDS.Notes.open({"id": itemId, "type": TDS.Notes.Types.TextArea});
+        }
+    }
+
 
     // setup cross domain api
     XDM.init(window);
 
+    function isGlobalNotesEnabled(){
+        return TDS.getAccommodationProperties().existsAndNotEquals('Global Notes', 'TDS_GN0');
 
+    }
 
     function getItemId(item) {
         return "I-" + item.bankKey + "-" + item.itemKey;
@@ -148,13 +161,22 @@
             deferred.resolve();
         });
 
-        if(!buttonsLoaded) {
+        ContentManager.onItemEvent("comment", function(ev) {
+            comments(ev);
+        });
+
+        if (TDS.getAccommodationProperties().hasMaskingEnabled()) {
             Blackbox.showButton('btnMask', showMask, true);
-            Blackbox.showButton('btnCalculator', calculatorBtn, true);
-            Blackbox.showButton('btnGlobalNotes', globalNotesBtn, true);
-            buttonsLoaded = true;
         }
-        if (TDS.getAccommodationProperties().getDictionary()) {
+
+        if(isGlobalNotesEnabled()){
+            Blackbox.showButton('btnGlobalNotes', globalNotesBtn, true);
+        }
+        if (TDS.getAccommodationProperties().hasCalculator()) {
+            Blackbox.showButton('btnCalculator', calculatorBtn, true);
+        }
+
+        if (TDS.getAccommodationProperties().isDictionaryEnabled()) {
             Blackbox.showButton('btnDictionary', dictionaryBtn, true);
         }
 

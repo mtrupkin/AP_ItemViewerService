@@ -11,6 +11,51 @@
 
 	<!-- Prevents scaling -->
 	<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
+	<!-- YUI Styles -->
+	<tds:CSSLink href="~/Scripts/Libraries/yahoo/yui2/build/menu/assets/skins/sam/menu.css" rel="stylesheet" type="text/css" />
+	<tds:CSSLink href="~/Scripts/Libraries/yahoo/yui2/build/button/assets/skins/sam/button.css" rel="stylesheet" type="text/css" />
+	<tds:CSSLink href="~/Scripts/Libraries/yahoo/yui2/build/container/assets/skins/sam/container.css" rel="stylesheet" type="text/css" />
+	<tds:CSSLink href="~/Scripts/Libraries/yahoo/yui2/build/resize/assets/skins/sam/resize.css" rel="stylesheet" type="text/css" />
+
+	<!-- Shell Styles -->
+	<tds:CSSLink href="~/IrisStyles/Universal/frame.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Shared/CSS/normalize.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/IrisStyles/Universal/shell.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Projects/SBAC/css/modernShell.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/IrisStyles/dialogs.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/IrisStyles/accommodations.css" media="screen" type="text/css" rel="stylesheet" />
+
+	<!-- Content Styles -->
+	<tds:CSSLink href="~/IrisStyles/items.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Shared/CSS/elpa.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/IrisStyles/Universal/items.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Projects/SBAC/css/modernItems.css" media="screen" type="text/css" rel="stylesheet" />
+
+	<!-- Module Styles -->
+	<tds:CSSLink id="CSSLink1" href="~/Scripts/ResponseRecovery/responserecovery.css" media="screen" type="text/css" rel="stylesheet" />
+
+	<!-- Widget Styles -->
+	<tds:CSSLink href="~/Scripts/Interaction/CSS/interaction.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/EquationEditor3/eq_editor.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/EquationEditor3/custom_eq_editor.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/LineReader/lineReader.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/MatchItem/mi.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/Slideshow2/show.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/Mask/mask.css" media="screen" type="text/css" rel="stylesheet" />
+
+	<tds:CSSLink href="~/Scripts/Simulator2/Renderer/CSS/simulator.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/Simulator2/Renderer/CSS/slider.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/HTMLEditor2/editor.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/EditTask/edit.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/Scaffolding/asi.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/EBSR/ebsr.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/TableInput/base.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/Scratchpad/scratchpad.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/Moogle/CSS/moogle.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:CSSLink href="~/Scripts/Audio2/ClosedCaptioning.css" media="screen" type="text/css" rel="stylesheet" />
+
+	<!-- Prevents scaling -->
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
 
 	<!-- Blackbox Config -->
 	<script type="text/javascript">
@@ -20,14 +65,17 @@
 		};
 	</script>
 	<!-- Blackbox Seed -->
-	<script type="text/javascript" src="#{itempreviewDefaultBacking.blackboxHandler}"></script>
+	<!--<script type="text/javascript" src="#{itempreviewDefaultBacking.blackboxHandler}"></script>-->
+	<tds:ScriptLink type="text/javascript" source="~/Scripts/bundle.min.js" />
 	<!-- Required by CTB -->
 
 	<tds:CSSLink href="~/IrisStyles/iris.css" media="screen" type="text/css" rel="stylesheet" />
+	<tds:ResourcesLink file="~/Scripts/scripts_iris.xml" name="sample" />
+
+
 	<!-- Use our own JavaScript so we can subscribe to notifications when the blackbox has initialized.-->
 	<tds:ScriptLink source="~/Scripts/ItemViewerService.js" type="text/javascript"></tds:ScriptLink>
 	<!-- Use the iris scripts xml file because it loads all of the JS we need for the accommodations. -->
-	<tds:ResourcesLink file="~/Scripts/scripts_iris.xml" name="sample" />
 </h:head>
 <h:body>
 	<div id="testShell"></div>

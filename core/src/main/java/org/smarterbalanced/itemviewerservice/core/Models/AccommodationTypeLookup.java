@@ -149,8 +149,8 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_FT_Verdana", "Font Type");
 
     //Global Notes
-    accommodationMap.put("TDS_GN0", "Notes");
-    accommodationMap.put("TDS_GN1", "Notes");
+    accommodationMap.put("TDS_GN0", "Global Notes");
+    accommodationMap.put("TDS_GN1", "Global Notes");
 
     //Item Font Size
     accommodationMap.put("TDS_IF_S14", "Item Font Size");

@@ -136,9 +136,9 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_Dict_SD2", "Dictionary");
     accommodationMap.put("TDS_Dict_SD3", "Dictionary");
     accommodationMap.put("TDS_Dict_SD4", "Dictionary");
-    accommodationMap.put("TDS_TH0", "Dictionary");
-    accommodationMap.put("TDS_TH_TA", "Dictionary");
-    accommodationMap.put("TDS_TO_All", "Dictionary");
+    accommodationMap.put("TDS_TH0", "Thesaurus");
+    accommodationMap.put("TDS_TH_TA", "Thesaurus");
+    accommodationMap.put("TDS_TO_All", "Thesaurus");
 
     //Expandable Passages
     accommodationMap.put("TDS_ExpandablePassages0", "Expandable Passages");

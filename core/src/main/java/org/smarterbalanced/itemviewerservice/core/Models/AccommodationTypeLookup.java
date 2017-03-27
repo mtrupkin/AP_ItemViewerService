@@ -104,7 +104,7 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_ArabicGloss", "Word List");
     accommodationMap.put("TDS_WL_CantoneseGloss", "Word List");
-    accommodationMap.put("TDS_WL_ESNGloss", "Word List");
+    accommodationMap.put("TDS_WL_ESNGlossary", "Word List");
     accommodationMap.put("TDS_WL_KoreanGloss", "Word List");
     accommodationMap.put("TDS_WL_MandarinGloss", "Word List");
     accommodationMap.put("TDS_WL_PunjabiGloss", "Word List");
@@ -114,7 +114,7 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_WL_VietnameseGloss", "Word List");
     accommodationMap.put("TDS_WL_ArabicGloss&TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_CantoneseGloss&TDS_WL_Glossary", "Word List");
-    accommodationMap.put("TDS_WL_ESNGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_ESNGlossary&TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_KoreanGloss&TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_MandarinGloss&TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_PunjabiGloss&TDS_WL_Glossary", "Word List");

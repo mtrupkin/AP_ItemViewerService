@@ -28,8 +28,8 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_BT0", "BrailleType");
 
     //Closed Captioning
-    accommodationMap.put("TDS_ClosedCap0", "ClosedCaptioning");
-    accommodationMap.put("TDS_ClosedCap1", "ClosedCaptioning");
+    accommodationMap.put("TDS_ClosedCap0", "Closed Captioning");
+    accommodationMap.put("TDS_ClosedCap1", "Closed Captioning");
 
     //Color Contrast
     accommodationMap.put("TDS_CC0", "ColorContrast");

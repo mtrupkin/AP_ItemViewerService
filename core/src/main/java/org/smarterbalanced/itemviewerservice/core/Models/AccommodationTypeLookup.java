@@ -129,7 +129,7 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_CalcSciInv", "Calculator");
     accommodationMap.put("Tds_CalcGraphingInv", "Calculator");
     accommodationMap.put("TDS_CalcRegress", "Calculator");
-    accommodationMap.put("TDS_CalcBasic", "Calculator");
+    accommodationMap.put("TDS_CalcSciInv&TDS_CalcGraphingInv&TDS_CalcRegress", "Calculator");
 
     //Dictionary and Thesaurus
     accommodationMap.put("TDS_Dict0", "Dictionary");

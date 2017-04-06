@@ -26,6 +26,15 @@ public final class AccommodationTypeLookup {
 
     //Braille
     accommodationMap.put("TDS_BT0", "BrailleType");
+    accommodationMap.put("TDS_BT_EXN", "BrailleType");
+    accommodationMap.put("TDS_BT_ECN", "BrailleType");
+    accommodationMap.put("TDS_BT_UXN", "BrailleType");
+    accommodationMap.put("TDS_BT_UCN", "BrailleType");
+    accommodationMap.put("TDS_BT_UXT", "BrailleType");
+    accommodationMap.put("TDS_BT_UCT", "BrailleType");
+    accommodationMap.put("TDS_BT_ECL", "BrailleType");
+    accommodationMap.put("TDS_BT_EXL", "BrailleType");
+
 
     //Closed Captioning
     accommodationMap.put("TDS_ClosedCap0", "ClosedCaptioning");

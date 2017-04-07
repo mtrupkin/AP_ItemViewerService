@@ -37,8 +37,8 @@ public final class AccommodationTypeLookup {
 
 
     //Closed Captioning
-    accommodationMap.put("TDS_ClosedCap0", "ClosedCaptioning");
-    accommodationMap.put("TDS_ClosedCap1", "ClosedCaptioning");
+    accommodationMap.put("TDS_ClosedCap0", "Closed Captioning");
+    accommodationMap.put("TDS_ClosedCap1", "Closed Captioning");
 
     //Color Contrast
     accommodationMap.put("TDS_CC0", "ColorContrast");

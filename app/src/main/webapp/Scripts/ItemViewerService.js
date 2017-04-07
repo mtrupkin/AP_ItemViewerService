@@ -180,6 +180,10 @@
             Blackbox.showButton('btnDictionary', dictionaryBtn, true);
         }
 
+        if (TDS.getAccommodationProperties().showItemToolsMenu()) {
+            $(".itemTools").addClass("toolsContainer");
+        }
+
         var printSize = CM.getAccProps().getPrintSize();
         if(printSize) {
             CM.getZoom().setLevel(printSize, true);

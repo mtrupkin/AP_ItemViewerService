@@ -24,6 +24,10 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_ASL0", "American Sign Language");
     accommodationMap.put("TDS_ASL1", "American Sign Language");
 
+    //Audio Settings
+    accommodationMap.put("TDS_APC_PSP", "Audio Playback Controls");
+    accommodationMap.put("TDS_APC_SCRUBBER", "Audio Playback Controls");
+
     //Braille
     accommodationMap.put("TDS_BT0", "BrailleType");
     accommodationMap.put("TDS_BT_EXN", "BrailleType");

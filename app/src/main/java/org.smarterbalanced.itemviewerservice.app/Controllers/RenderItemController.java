@@ -57,9 +57,15 @@ public class RenderItemController {
    */
   @RequestMapping(value = "/items", method = RequestMethod.GET)
   @ResponseBody
-  public ModelAndView getContent(@RequestParam(value = "ids", required = true) String[] itemIds,
-                                 @RequestParam(value = "scrollToId", required = false, defaultValue = "") String scrollToId,
-                                 @RequestParam(value = "isaap", required = false,
+  public ModelAndView getContent(@RequestParam(value = "ids",
+                                          required = true)
+                                           String[] itemIds,
+                                 @RequestParam(value = "scrollToId",
+                                         required = false,
+                                         defaultValue = "")
+                                         String scrollToId,
+                                 @RequestParam(value = "isaap",
+                                         required = false,
                                          defaultValue = "")
                                          String accommodationCodes
   ) {
@@ -69,9 +75,9 @@ public class RenderItemController {
     String token = item.generateJsonToken();
     ModelAndView model = new ModelAndView();
     String scrollToDivId = "";
-    if(!scrollToId.equals("")){
-      try{
-        scrollToDivId ="Item_" +  scrollToId.split("-")[1];
+    if (!scrollToId.equals("")) {
+      try {
+        scrollToDivId = "Item_" + scrollToId.split("-")[1];
       } catch (IndexOutOfBoundsException e) {
         //Don't assign a value
       }

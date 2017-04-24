@@ -21,7 +21,8 @@
                 //Note: in the OSS IRiS case we do not care for this.
                 var vendorId = '2B3C34BF-064C-462A-93EA-41E9E3EB8333';
                 var token = '${token}';
-                IRiS.loadToken(vendorId, token);
+                var scrollToDivId = '${scrollToDivId}';
+                IRiS.loadToken(vendorId, token, scrollToDivId);
             };
             function irisSetup() {
                 window.Util.XDM.addListener('IRiS:ready', loadItem);

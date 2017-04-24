@@ -58,6 +58,7 @@ public class RenderItemController {
   @RequestMapping(value = "/items", method = RequestMethod.GET)
   @ResponseBody
   public ModelAndView getContent(@RequestParam(value = "ids", required = true) String[] itemIds,
+                                 @RequestParam(value = "scrollToId", required = false, defaultValue = "") String scrollToId,
                                  @RequestParam(value = "isaap", required = false,
                                          defaultValue = "")
                                          String accommodationCodes
@@ -65,14 +66,23 @@ public class RenderItemController {
     //Request is in the format
     String[] codes = accommodationCodes.split(";");
     ItemRequestModel item = new ItemRequestModel(itemIds, codes);
-
     String token = item.generateJsonToken();
     ModelAndView model = new ModelAndView();
+    String scrollToDivId = "";
+    if(!scrollToId.equals("")){
+      try{
+        scrollToDivId ="Item_" +  scrollToId.split("-")[1];
+      } catch (IndexOutOfBoundsException e) {
+        //Don't assign a value
+      }
+    }
+
+
     model.setViewName("item");
     model.addObject("token", token);
+    model.addObject("scrollToDivId", scrollToDivId);
     model.addObject("item", itemIds[0]);
     return model;
   }
-
 
 }

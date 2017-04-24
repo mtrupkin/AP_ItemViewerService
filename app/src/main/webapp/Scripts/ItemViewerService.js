@@ -51,7 +51,7 @@
             var itemId = getItemId(currentItem);
             TDS.Notes.open({"id": itemId, "type": TDS.Notes.Types.TextArea});
         }
-    }
+    };
 
 
     // setup cross domain api
@@ -127,7 +127,7 @@
         };
     }
 
-    function loadContent(xmlDoc) {
+    function loadContent(xmlDoc, scrollToDiv) {
         if (typeof xmlDoc == 'string') {
             xmlDoc = Util.Xml.parseFromString(xmlDoc);
         }
@@ -151,14 +151,17 @@
             }
         }
 
-        page = CM.createPage(content);
+       var page = CM.createPage(content);
 
         page.render();
         page.once('loaded', function () {
             TDS.Dialog.hideProgress();
             page.show();
-            CM.accessibilityEnabled = false;
+            //CM.accessibilityEnabled = false;
             deferred.resolve();
+            if(scrollToDiv) {
+                document.getElementById(scrollToDiv).scrollIntoView();
+            }
         });
 
         ContentManager.onItemEvent("comment", function(ev) {
@@ -213,13 +216,13 @@
         }
     }
 
-    function loadToken(vendorId, token) {
+    function loadToken(vendorId, token, scrollToDivId) {
         Messages.set('TDS.WordList.illustration', 'Illustration', 'ENU');
         TDS.Dialog.showProgress();
         var url = irisUrl + '/Pages/API/content/load?id=' + vendorId;
         setAccommodations(token);
         return $.post(url, token, null, 'text').then(function (data) {
-            return loadContent(data);
+            return loadContent(data, scrollToDivId);
         }, function (data) {
             console.log("unable to load item");
 

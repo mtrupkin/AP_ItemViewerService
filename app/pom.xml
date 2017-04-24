@@ -137,6 +137,7 @@
                                 <exclude>WEB-INF/web.xml</exclude>
                                 <exclude>WEB-INF/classes/settings-mysql.xml</exclude>
                                 <exclude>/IrisPages/</exclude>
+                                <exclude>/Scripts/client.js</exclude>
                             </excludes>
                         </overlay>
                     </overlays>

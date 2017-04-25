@@ -160,7 +160,11 @@
             //CM.accessibilityEnabled = false;
             deferred.resolve();
             if(scrollToDiv) {
-                document.getElementById(scrollToDiv).scrollIntoView();
+                var el = document.getElementById(scrollToDiv);
+                if(el){
+                    el.scrollIntoView();
+                }
+
             }
         });
 

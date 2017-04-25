@@ -77,7 +77,7 @@ public class RenderItemController {
     String scrollToDivId = "";
     if (!scrollToId.equals("")) {
       try {
-        scrollToDivId = "Item_" + scrollToId.split("-")[1];
+        scrollToDivId = "QuestionNumber_" + scrollToId.split("-")[1];
       } catch (IndexOutOfBoundsException e) {
         //Don't assign a value
       }

@@ -16,14 +16,14 @@ script:
 
 after_success:
  - docker --version
+ - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
  - pip install --user awscli
  - export PATH=$PATH:$HOME/.local/bin
- - eval $(aws ecr get-login --region us-west-2)
  - mv app/target/itemviewerservice.war docker/
  - cd docker
- - docker build -t itemviewerservice .
- - docker tag itemviewerservice:latest 047189625337.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:$BRANCH
- - docker push 047189625337.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:$BRANCH
+ - docker build -f Dockerfile.code -t itemviewerservice .
+ - docker tag itemviewerservice:latest osucass/itemviewerservicecode:$BRANCH
+ - docker push osucass/itemviewerservicecode:$BRANCH
  - cd ..
  - chmod ugo+x DeployScripts/runEcsBuild.sh
  - ./DeployScripts/runEcsBuild.sh

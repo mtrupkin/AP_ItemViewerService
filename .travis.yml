@@ -7,6 +7,7 @@ python:
   - "2.7"
 
 install: 
+  - python --version
   - pip install ecs-deploy
   - echo $?
   - pip install --user awscli
@@ -21,8 +22,8 @@ before_script:
   - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
 
 script:
-- mvn checkstyle:check
-- mvn clean install
+  - mvn checkstyle:check
+  - mvn clean install
 
 after_success:
  - docker --version

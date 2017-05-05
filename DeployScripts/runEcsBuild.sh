@@ -25,7 +25,7 @@ then
         ClusterName="ItemViewerService-prod"
     fi
 
-    cd /home/travis/build/osu-cass/docker/
+    cd /home/travis/build/osu-cass/AP_ItemViewerService/docker/
     mkdir content
     wget https://s3-us-west-2.amazonaws.com/cass-sb-itemviewerservice-content/content.zip
     unzip -o content.zip -d content/ &> /dev/null

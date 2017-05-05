@@ -3,9 +3,6 @@ jdk:
 - oraclejdk7
 sudo: required
 
-python:
-  - "2.7"
-
 install: 
   - export PATH=$PATH:$HOME/.local/bin
   - pip install --upgrade pip

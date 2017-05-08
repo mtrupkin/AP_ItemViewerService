@@ -28,8 +28,7 @@ after_success:
  - chmod ugo+x DeployScripts/code_deploy.sh
  - chmod ugo+x DeployScripts/deploy.sh
 
-
- deploy:
+deploy:
   - provider: script
     skip_cleanup: true
     script: ./DeployScripts/code_deploy.sh

@@ -4,7 +4,10 @@ set -ev
 ServiceName=$1
 ClusterName=$2
 
-cd /home/travis/build/osu-cass/AP_ItemViewerService/docker/
+Region="us-west-2"
+aws ecr get-login --region $Region | source /dev/stdin
+
+cd docker/
 mkdir content
 wget "$CONTENT_PACKAGE_URL" -O content.zip
 unzip -o content.zip -d content/ &> /dev/null

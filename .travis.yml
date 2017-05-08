@@ -6,10 +6,8 @@ sudo: required
 install: 
   - export PATH=$PATH:$HOME/.local/bin
   - python --version
-  - pip install ecs-deploy
-  - echo $?
-  - pip install --user awscli
-  - echo $?
+  - travis_retry pip install ecs-deploy
+  - travis_retry pip install --user awscli
 
 services:
  - docker
@@ -26,10 +24,25 @@ after_success:
  - docker --version
  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
  - mv app/target/itemviewerservice.war docker/
- - cd docker
- - docker build -f Dockerfile.code -t itemviewerservice .
- - docker tag itemviewerservice:latest osucass/itemviewerservicecode:$BRANCH
- - docker push osucass/itemviewerservicecode:$BRANCH
- - cd ..
- - chmod ugo+x DeployScripts/runEcsBuild.sh
- - ./DeployScripts/runEcsBuild.sh
+ - cd $TRAVIS_BUILD_DIR
+ - chmod ugo+x DeployScripts/code_deploy.sh
+ - chmod ugo+x DeployScripts/deploy.sh
+
+
+ deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/code_deploy.sh
+    on:
+      all_branches: true
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/deploy.sh ItemViewerService-prod ItemViewerService-prod
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/deploy.sh ItemViewerService-dev ItemViewerService-prod
+    on:
+      branch: dev
+

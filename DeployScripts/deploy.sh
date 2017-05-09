@@ -15,4 +15,4 @@ rm content.zip
 docker build -t itemviewerserviceapp .
 docker tag itemviewerserviceapp:latest osucass/itemviewerserviceapp:$BRANCH
 docker push osucass/itemviewerserviceapp:$BRANCH
-ecs deploy $ClusterName $ServiceName --region $Region
+ecs deploy $ClusterName $ServiceName --region $Region --timeout 600

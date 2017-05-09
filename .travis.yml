@@ -4,6 +4,7 @@ jdk:
 sudo: required
 
 install: 
+  - travis_retry pip install --upgrade pip
   - export PATH=$PATH:$HOME/.local/bin
   - python --version
   - travis_retry pip install ecs-deploy

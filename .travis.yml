@@ -26,23 +26,30 @@ after_success:
  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
  - mv app/target/itemviewerservice.war docker/
  - cd $TRAVIS_BUILD_DIR
- - chmod ugo+x DeployScripts/code_deploy.sh
- - chmod ugo+x DeployScripts/deploy.sh
+ - chmod ugo+x DeployScripts/code_docker_deploy.sh
+ - chmod ugo+x DeployScripts/app_docker_deploy.sh
+ - chmod ugo+x DeployScripts/ecs_deploy.sh
+
 
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ./DeployScripts/code_deploy.sh
+    script: ./DeployScripts/code_docker_deploy.sh
     on:
       all_branches: true
   - provider: script
     skip_cleanup: true
-    script: ./DeployScripts/deploy.sh ItemViewerService-prod ItemViewerService-prod
+    script: ./DeployScripts/app_docker_deploy.sh
+    on:
+        tags: true
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/app_docker_deploy.sh && ./DeployScripts/ecs_deploy.sh ItemViewerService-prod ItemViewerService-prod
     on:
       branch: master
   - provider: script
     skip_cleanup: true
-    script: ./DeployScripts/deploy.sh ItemViewerService-dev ItemViewerService-prod
+    script: ./DeployScripts/app_docker_deploy.sh && ./DeployScripts/ecs_deploy.sh ItemViewerService-dev ItemViewerService-prod
     on:
       branch: dev
 

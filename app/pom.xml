@@ -4,7 +4,7 @@
 
     <groupId>org.smarterbalanced.itemviewerservice.app</groupId>
     <artifactId>itemviewerservice.app</artifactId>
-    <version>1.1</version>
+    <version>1.1.1</version>
     <packaging>war</packaging>
 
     <name>itemviewerservice.app</name>
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>org.smarterbalanced.itemviewerservice.core</groupId>
             <artifactId>itemviewerservice.core</artifactId>
-            <version>1.1</version>
+            <version>1.1.1</version>
         </dependency>
 
         <!-- Newer version of JNA than is used in Iris

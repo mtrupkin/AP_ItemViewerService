@@ -65,13 +65,13 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("ENU-Braille", "Language");
 
     //Mark for Review
-    accommodationMap.put("TDS_MfR1", "MarkforReview ");
-    accommodationMap.put("TDS_MfR0", "MarkforReview ");
+    accommodationMap.put("TDS_MfR1", "Mark for Review");
+    accommodationMap.put("TDS_MfR0", "Mark for Review");
 
     //Masking
     accommodationMap.put("TDS_Masking0", "Masking");
     accommodationMap.put("TDS_Masking1", "Masking");
-
+s
     //Student Comment notepad
     accommodationMap.put("TDS_SCNotepad", "Student Comments");
     accommodationMap.put("TDS_SC0", "Student Comments");

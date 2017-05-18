@@ -9,7 +9,6 @@
     //Adding this onto TDS for now so it is available in the dictionary handler.
     var irisUrl = location.href;
     var buttonsLoaded = false;
-    CM.accessibilityEnabled = true;
     // Functions that are used by toolbar buttons
 
     //Calculator
@@ -157,7 +156,6 @@
         page.once('loaded', function () {
             TDS.Dialog.hideProgress();
             page.show();
-            //CM.accessibilityEnabled = false;
             deferred.resolve();
             if(scrollToDiv) {
                 var el = document.getElementById(scrollToDiv);

@@ -71,7 +71,7 @@ public final class AccommodationTypeLookup {
     //Masking
     accommodationMap.put("TDS_Masking0", "Masking");
     accommodationMap.put("TDS_Masking1", "Masking");
-s
+
     //Student Comment notepad
     accommodationMap.put("TDS_SCNotepad", "Student Comments");
     accommodationMap.put("TDS_SC0", "Student Comments");

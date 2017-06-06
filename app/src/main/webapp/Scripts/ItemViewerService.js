@@ -218,7 +218,11 @@
         }
     }
 
-    function loadToken(vendorId, token, scrollToDivId) {
+    function loadToken(vendorId, token, scrollToDivId, readOnly) {
+        if(readOnly === true){
+            CM.setReadOnly(true);
+        }
+        console.log("Readonly value: " + readOnly);
         Messages.set('TDS.WordList.illustration', 'Illustration', 'ENU');
         TDS.Dialog.showProgress();
         var url = irisUrl + '/Pages/API/content/load?id=' + vendorId;

@@ -25,8 +25,8 @@
         frame = frameWindow;
     };
 
-    api.loadToken = function (vendorId, token, scrollToDivId) {
-        return XDM(frame).post('IRiS:loadToken', vendorId, token, scrollToDivId);
+    api.loadToken = function (vendorId, token, scrollToDivId, readOnly) {
+        return XDM(frame).post('IRiS:loadToken', vendorId, token, scrollToDivId, readOnly);
     };
 
     api.loadContent = function (vendorId, token) {

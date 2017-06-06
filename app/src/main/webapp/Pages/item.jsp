@@ -22,7 +22,8 @@
                 var vendorId = '2B3C34BF-064C-462A-93EA-41E9E3EB8333';
                 var token = '${token}';
                 var scrollToDivId = '${scrollToDivId}';
-                IRiS.loadToken(vendorId, token, scrollToDivId);
+                var readOnly = ${readOnly};
+                IRiS.loadToken(vendorId, token, scrollToDivId, readOnly);
             };
             function irisSetup() {
                 window.Util.XDM.addListener('IRiS:ready', loadItem);

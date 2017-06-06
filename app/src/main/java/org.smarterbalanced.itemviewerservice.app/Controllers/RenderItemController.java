@@ -31,7 +31,11 @@ public class RenderItemController {
   public ModelAndView getContent(@PathVariable("item") String itemId,
                                  @RequestParam(value = "isaap", required = false,
                                          defaultValue = "")
-                                         String accommodationCodes
+                                         String accommodationCodes,
+                                 @RequestParam(value = "readOnly",
+                                         required = false,
+                                         defaultValue = "false"
+                                 ) boolean readOnly
   ) {
     //Request is in the format
     String[] codes = accommodationCodes.split(";");
@@ -43,6 +47,7 @@ public class RenderItemController {
     String token = item.generateJsonToken();
     ModelAndView model = new ModelAndView();
     model.setViewName("item");
+    model.addObject("readOnly", readOnly);
     model.addObject("token", token);
     model.addObject("item", itemArr[0]);
     return model;
@@ -67,7 +72,11 @@ public class RenderItemController {
                                  @RequestParam(value = "isaap",
                                          required = false,
                                          defaultValue = "")
-                                         String accommodationCodes
+                                         String accommodationCodes,
+                                 @RequestParam(value = "readOnly",
+                                         required = false,
+                                         defaultValue = "false"
+                                 ) boolean readOnly
   ) {
     //Request is in the format
     String[] codes = accommodationCodes.split(";");
@@ -83,8 +92,8 @@ public class RenderItemController {
       }
     }
 
-
     model.setViewName("item");
+    model.addObject("readOnly", readOnly);
     model.addObject("token", token);
     model.addObject("scrollToDivId", scrollToDivId);
     model.addObject("item", itemIds[0]);

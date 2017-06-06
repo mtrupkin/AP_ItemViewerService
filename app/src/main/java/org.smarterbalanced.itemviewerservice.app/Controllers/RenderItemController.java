@@ -81,8 +81,7 @@ public class RenderItemController {
     //Request is in the format
     String[] codes = accommodationCodes.split(";");
     ItemRequestModel item = new ItemRequestModel(itemIds, codes);
-    String token = item.generateJsonToken();
-    ModelAndView model = new ModelAndView();
+    final String token = item.generateJsonToken();
     String scrollToDivId = "";
     if (!scrollToId.equals("")) {
       try {
@@ -92,6 +91,7 @@ public class RenderItemController {
       }
     }
 
+    ModelAndView model = new ModelAndView();
     model.setViewName("item");
     model.addObject("readOnly", readOnly);
     model.addObject("token", token);

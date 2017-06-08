@@ -13,7 +13,13 @@ The URL for loading performance task items is `/items?ids=ItemBank-ItemID1,ItemB
 For example, to load a performance task with items 187-1435, 187-1436, and 187-1437 the request would look like
 `/items?ids=187-1435,187-1436,187-1437`
 
-## Specifying Accessibility Codes
+## Optional, Scroll to Item Id
+An optional url parameter can be specified to scroll to a specific item in a performance item result. To scroll to an item, use `scrollToId` parameter and by setting to `{ItemBank-ItemID}`. Example `/items?ids=187-1435,187-1436,187-1437&scrollToId=187-1436`
+
+## Optional, Readonly Mode
+An optional url parameter can be specified to make the rendered item readonly. By default, readOnly is set to false. To enable readonly, use `readOnly` parameter and by setting to `false` or `true`. Example `/items?ids=187-1435&readOnly=true`
+
+## Optional, Specifying Accessibility Codes
 The optional accessibility codes are specified using the `isaap` url parameter.
 Feature codes are passed as a semicolon separated list.
 Only the feature code should be included. Feature family is not included.

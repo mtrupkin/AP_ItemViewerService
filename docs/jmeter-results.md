@@ -36,4 +36,3 @@ Average response time is the average for the load item transaction controllers.
 | 100               | 100              | 100                        | 580                   | 1222                   | 0%         |
 | 200               | 100              | 200                        | 580                   | 1557                   | 0%         |
 | 300               | 100              | 300                        | 580                   | 1894                   | 0%         |
-| 600               | 200              | 600                        | 680                   |                        | %          |

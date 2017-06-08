@@ -3,6 +3,13 @@ jdk:
 - oraclejdk7
 sudo: required
 
+install: 
+  - travis_retry pip install --upgrade pip
+  - export PATH=$PATH:$HOME/.local/bin
+  - python --version
+  - travis_retry pip install ecs-deploy
+  - travis_retry pip install --user awscli
+
 services:
  - docker
 
@@ -11,19 +18,38 @@ before_script:
   - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
 
 script:
-- mvn checkstyle:check
-- mvn clean install
+ - mvn clean install
+ - mvn checkstyle:check
 
 after_success:
  - docker --version
- - pip install --user awscli
- - export PATH=$PATH:$HOME/.local/bin
- - eval $(aws ecr get-login --region us-west-2)
+ - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
  - mv app/target/itemviewerservice.war docker/
- - cd docker
- - docker build -t itemviewerservice .
- - docker tag itemviewerservice:latest 047189625337.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:$BRANCH
- - docker push 047189625337.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:$BRANCH
- - cd ..
- - chmod ugo+x DeployScripts/runEcsBuild.sh
- - ./DeployScripts/runEcsBuild.sh
+ - cd $TRAVIS_BUILD_DIR
+ - chmod ugo+x DeployScripts/code_docker_deploy.sh
+ - chmod ugo+x DeployScripts/app_docker_deploy.sh
+ - chmod ugo+x DeployScripts/ecs_deploy.sh
+
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/code_docker_deploy.sh
+    on:
+      all_branches: true
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/app_docker_deploy.sh
+    on:
+        tags: true
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/app_docker_deploy.sh && ./DeployScripts/ecs_deploy.sh ItemViewerService-prod ItemViewerService-prod
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/app_docker_deploy.sh && ./DeployScripts/ecs_deploy.sh ItemViewerService-dev ItemViewerService-prod
+    on:
+      branch: dev
+

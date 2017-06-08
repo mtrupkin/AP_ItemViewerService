@@ -24,12 +24,25 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_ASL0", "American Sign Language");
     accommodationMap.put("TDS_ASL1", "American Sign Language");
 
+    //Audio Settings
+    accommodationMap.put("TDS_APC_PSP", "Audio Playback Controls");
+    accommodationMap.put("TDS_APC_SCRUBBER", "Audio Playback Controls");
+
     //Braille
     accommodationMap.put("TDS_BT0", "BrailleType");
+    accommodationMap.put("TDS_BT_EXN", "BrailleType");
+    accommodationMap.put("TDS_BT_ECN", "BrailleType");
+    accommodationMap.put("TDS_BT_UXN", "BrailleType");
+    accommodationMap.put("TDS_BT_UCN", "BrailleType");
+    accommodationMap.put("TDS_BT_UXT", "BrailleType");
+    accommodationMap.put("TDS_BT_UCT", "BrailleType");
+    accommodationMap.put("TDS_BT_ECL", "BrailleType");
+    accommodationMap.put("TDS_BT_EXL", "BrailleType");
+
 
     //Closed Captioning
-    accommodationMap.put("TDS_ClosedCap0", "ClosedCaptioning");
-    accommodationMap.put("TDS_ClosedCap1", "ClosedCaptioning");
+    accommodationMap.put("TDS_ClosedCap0", "Closed Captioning");
+    accommodationMap.put("TDS_ClosedCap1", "Closed Captioning");
 
     //Color Contrast
     accommodationMap.put("TDS_CC0", "ColorContrast");
@@ -52,8 +65,8 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("ENU-Braille", "Language");
 
     //Mark for Review
-    accommodationMap.put("TDS_MfR1", "MarkforReview ");
-    accommodationMap.put("TDS_MfR0", "MarkforReview ");
+    accommodationMap.put("TDS_MfR1", "Mark for Review");
+    accommodationMap.put("TDS_MfR0", "Mark for Review");
 
     //Masking
     accommodationMap.put("TDS_Masking0", "Masking");
@@ -104,7 +117,7 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_ArabicGloss", "Word List");
     accommodationMap.put("TDS_WL_CantoneseGloss", "Word List");
-    accommodationMap.put("TDS_WL_ESNGloss", "Word List");
+    accommodationMap.put("TDS_WL_ESNGlossary", "Word List");
     accommodationMap.put("TDS_WL_KoreanGloss", "Word List");
     accommodationMap.put("TDS_WL_MandarinGloss", "Word List");
     accommodationMap.put("TDS_WL_PunjabiGloss", "Word List");
@@ -114,7 +127,7 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_WL_VietnameseGloss", "Word List");
     accommodationMap.put("TDS_WL_ArabicGloss&TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_CantoneseGloss&TDS_WL_Glossary", "Word List");
-    accommodationMap.put("TDS_WL_ESNGloss&TDS_WL_Glossary", "Word List");
+    accommodationMap.put("TDS_WL_ESNGlossary&TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_KoreanGloss&TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_MandarinGloss&TDS_WL_Glossary", "Word List");
     accommodationMap.put("TDS_WL_PunjabiGloss&TDS_WL_Glossary", "Word List");
@@ -129,16 +142,16 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_CalcSciInv", "Calculator");
     accommodationMap.put("Tds_CalcGraphingInv", "Calculator");
     accommodationMap.put("TDS_CalcRegress", "Calculator");
-    accommodationMap.put("TDS_CalcBasic", "Calculator");
+    accommodationMap.put("TDS_CalcSciInv&TDS_CalcGraphingInv&TDS_CalcRegress", "Calculator");
 
     //Dictionary and Thesaurus
     accommodationMap.put("TDS_Dict0", "Dictionary");
     accommodationMap.put("TDS_Dict_SD2", "Dictionary");
     accommodationMap.put("TDS_Dict_SD3", "Dictionary");
     accommodationMap.put("TDS_Dict_SD4", "Dictionary");
-    accommodationMap.put("TDS_TH0", "Dictionary");
-    accommodationMap.put("TDS_TH_TA", "Dictionary");
-    accommodationMap.put("TDS_TO_All", "Dictionary");
+    accommodationMap.put("TDS_TH0", "Thesaurus");
+    accommodationMap.put("TDS_TH_TA", "Thesaurus");
+    accommodationMap.put("TDS_TO_All", "Thesaurus");
 
     //Expandable Passages
     accommodationMap.put("TDS_ExpandablePassages0", "Expandable Passages");
@@ -149,8 +162,8 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("TDS_FT_Verdana", "Font Type");
 
     //Global Notes
-    accommodationMap.put("TDS_GN0", "Notes");
-    accommodationMap.put("TDS_GN1", "Notes");
+    accommodationMap.put("TDS_GN0", "Global Notes");
+    accommodationMap.put("TDS_GN1", "Global Notes");
 
     //Item Font Size
     accommodationMap.put("TDS_IF_S14", "Item Font Size");

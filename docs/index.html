@@ -149,7 +149,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   h1,
   .splendor-h1 {
     margin-top: 0;
-    font-size: 3.998rem;
+    font-size: 3.2rem;
   }
   
   h2,
@@ -326,6 +326,34 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#launch-application">Launch Application</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#build">Build</a><ul>
+<li><a href="#before-starting-build">Before starting build</a></li>
+<li><a href="#using-a-previous-docker-code-image">Using a previous docker code image</a><ul>
+<li><a href="#docker">Docker</a></li>
+</ul></li>
+<li><a href="#deploy-item-viewer-service-app">Deploy Item Viewer Service app</a></li>
+</ul></li>
+<li><a href="#docker-1">Docker</a><ul>
+<li><a href="#publish-docker-to-aws">Publish Docker to AWS</a></li>
+<li><a href="#publish-docker-to-dockerhub">Publish Docker to DockerHub</a></li>
+<li><a href="#docker-commands">Docker Commands</a></li>
+</ul></li>
+<li><a href="#loading-items">Loading Items</a><ul>
+<li><a href="#loading-a-single-item">Loading a Single Item</a></li>
+<li><a href="#loading-a-performance-task-item">Loading a Performance Task Item</a></li>
+<li><a href="#optional-scroll-to-item-id">Optional, Scroll to Item Id</a></li>
+<li><a href="#optional-readonly-mode">Optional, Readonly Mode</a></li>
+<li><a href="#optional-specifying-accessibility-codes">Optional, Specifying Accessibility Codes</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul></li>
+<li><a href="#summary-of-jmeter-test-results">Summary of JMeter Test Results</a><ul>
+<li><a href="#terminology">Terminology</a></li>
+<li><a href="#environment">Environment</a></li>
+<li><a href="#jmeter-requests-vs-browser-requests">JMeter Requests vs Browser Requests</a></li>
+<li><a href="#running-the-test-plan">Running the test plan</a></li>
+<li><a href="#interpreting-results">Interpreting Results</a></li>
+<li><a href="#results">Results</a></li>
+</ul></li>
 </ul>
 </nav>
 <h1 id="item-viewer-service-technologies-overview">Item Viewer Service Technologies Overview</h1>
@@ -343,7 +371,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h4 id="configuration">Configuration</h4>
 <p>The App layer contains the logging and application configuration files. Both the the application logging and settings are configured using XML files.</p>
 <h3 id="core">Core</h3>
-<p>The Core module contains the application’s business logic. It contains the item request processing and diagnostic API logic.</p>
+<p>The Core module contains the application's business logic. It contains the item request processing and diagnostic API logic.</p>
 <h4 id="diagnostic-api">Diagnostic API</h4>
 <p>The Diagnostic API is implemented using the requirements listed in the SmarterApp Web Diagnostic API <a href="http://www.smarterapp.org/documents/DiagnosticApi.html">documentation</a>. It supports five levels of diagnostics; system, configuration, database read, database write, and external providers. The system diagnostic uses the Operating System Hardware Information (OSHI) library to gather information on memory usage and file system space. The configuration diagnostic checks for the existence of the application configuration file and configuration variables. The database read diagnostic makes sure the Iris content path variable is readable, and that it contains content items. The database write diagnostic makes sure that the Iris content directory is writeable, then performs a write and a delete in the content directory. The providers diagnostic checks the status of the word list handler, the black box, the item viewer service API, the Amazon S3 content bucket, and the content packages. It performs an HTTP get request to get the status of the word list handler, black box, and item viewer service API. It uses the Amazon AWS Java SDK to connect to Amazon S3 and get a list of content packages. The diagnostic API can be accessed at /statusLocal?level=&lt;1-5&gt;. Replace the brackets and number with a status level between 1 and 5 inclusive.</p>
 <p>If the Item Viewer is running an an AWS ERS cluster it can be configured to display the diagnostic status of each instance of the Item Viewer in the cluster.</p>
@@ -419,7 +447,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">&lt;/filter-mapping&gt;</span></code></pre></div>
 <p>Tomcat has detailed <a href="http://tomcat.apache.org/tomcat-8.0-doc/config/filter.html#CORS_Filter">documentation</a> on setting up CORS filtering. Please refer to it if you want to set up a more detailed filter.</p>
 <h3 id="aws-container-cluster-information-optional">Aws Container Cluster Information (Optional)</h3>
-<p>The “AwsRegion” and “AwsClusterName” keys are used if the application is being run outside of an AWS ERS cluster. If you are running the Item Viewer locally you can ignore these. Please note that the /status url will not work if the Item Viewer is being run outside of an AWS ECS cluster. Use /statusLocal for local diagnostics.</p>
+<p>The &quot;AwsRegion&quot; and &quot;AwsClusterName&quot; keys are used if the application is being run outside of an AWS ERS cluster. If you are running the Item Viewer locally you can ignore these. Please note that the /status url will not work if the Item Viewer is being run outside of an AWS ECS cluster. Use /statusLocal for local diagnostics.</p>
 <h3 id="logging-1">Logging</h3>
 <p>The item viewer service uses <a href="http://www.slf4j.org/">SLF4J</a> bound to <a href="http://logback.qos.ch/">Logback Classic</a> for logging. The log settings are found in logback.xml. For basic logging to a file you will need to set the file location for the file appender. For a full reference on configuring the log output levels and locations please refer to the Logback Classic <a href="http://logback.qos.ch/manual/configuration.html">documentation</a>.</p>
 <h3 id="local-system">Local System</h3>
@@ -481,7 +509,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </table>
 <h4 id="aws-setup">AWS Setup</h4>
 <p>Launch an Amazon Web Services instance with the following configurations:</p>
-<ol type="1">
+<ol style="list-style-type: decimal">
 <li>Use AMI: Ubuntu Server 14.04 LTS (HVM), SSD Volume Type (ami-d732f0b7).</li>
 <li>Select a suitable instance size.</li>
 <li>Select <code>Next: Configure Instance Details</code></li>
@@ -537,5 +565,154 @@ chown -R tomcat7:tomcat7 /usr/share/tomcat7</code></pre></li>
 <p>Restart tomcat7 and nginx:</p>
 <p><code>sudo service tomcat7 restart</code></p>
 <p><code>sudo service nginx restart</code></p>
+<h1 id="build">Build</h1>
+<p>Item Viewer Service API requires content before running.</p>
+<p>There is a two-step process using docker. The base app without content needs to be created as a docker image called code. Then we combine the code image with the content package using another dockerfile.</p>
+<h2 id="before-starting-build">Before starting build</h2>
+<p>Locate the dockerfile.stage and dockerfile.prod files from github repo, navigate to deployScripts</p>
+<h2 id="using-a-previous-docker-code-image">Using a previous docker code image</h2>
+<h3 id="docker">Docker</h3>
+<ol style="list-style-type: decimal">
+<li>Navigate to directory containing dockerfiles. If you cloned the Item Viewer Service git repo this will be the DeployScripts directory.</li>
+<li>Get docker code repo for stage/prod, run <code>docker pull reponame:{tag}</code>
+<ol style="list-style-type: decimal">
+<li>Example stage: run <code>docker pull xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:stage</code></li>
+<li>Example producation: run <code>docker pull xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:prod</code></li>
+</ol></li>
+<li>Docker tag code, run <code>docker tag reponame:{tag} itemviewerservicecode:{tag}</code>
+<ol style="list-style-type: decimal">
+<li>Example stage: run <code>docker tag xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:stage itemviewerservicecode:stage</code></li>
+<li>Example production: run <code>docker tag xxx.dkr.ecr.us-west-2.amazonaws.com/itemviewerservicecode:prod itemviewerservicecode:prod</code></li>
+</ol></li>
+<li>place content within dockerfile directory
+<ol style="list-style-type: decimal">
+<li>Content needs to be unzipped</li>
+<li>content directory root level needs Items directory</li>
+</ol></li>
+<li>Docker build, run <code>docker build -t itemviewerserviceapp:{tag} -f Dockerfile.{tag} .</code>
+<ol style="list-style-type: decimal">
+<li>Example stage: run <code>docker build -t itemviewerserviceapp:stage -f Dockerfile.stage .</code></li>
+<li>Example production: run <code>docker build -t itemviewerserviceapp:prod -f Dockerfile.prod .</code></li>
+</ol></li>
+<li>Docker Run app , run <code>docker run -it -p 8012:8080 itemviewerserviceapp:{tag}</code>
+<ol style="list-style-type: decimal">
+<li>Example stage: run <code>docker run -it -p 8012:8080 itemviewerserviceapp:stage</code></li>
+<li>Example production: run <code>docker run -it -p 8012:8080 itemviewerserviceapp:prod</code></li>
+</ol></li>
+<li>Go to <a href="http://localhost:8012">localhost:8012</a></li>
+</ol>
+<h2 id="deploy-item-viewer-service-app">Deploy Item Viewer Service app</h2>
+<ol style="list-style-type: decimal">
+<li>see <a href="#publish-docker-to-aws">Publish Docker</a></li>
+</ol>
+<h1 id="docker-1">Docker</h1>
+<h2 id="publish-docker-to-aws">Publish Docker to AWS</h2>
+<ol style="list-style-type: decimal">
+<li>Go to Amazon ECS</li>
+<li>Select Repositories</li>
+<li>Select a repository or create</li>
+<li>Select push Commands</li>
+<li>Follow the push Commands or follow:
+<ol style="list-style-type: decimal">
+<li>Go to the root directory containing Dockerfile</li>
+<li>Run <code>aws ecr get-login --region us-west-2</code></li>
+<li>Run the docker login command</li>
+<li>Run <code>docker build -t {repo-name}:{latest/dev/stage/prod} .</code></li>
+<li>Run <code>docker tag {repo-name}:{latest/dev/stage/prod} {amazon-repo}:{latest/dev/stage/prod}</code></li>
+<li>Run <code>docker push {amazon-repo}:{latest/dev/stage/prod}</code></li>
+</ol></li>
+</ol>
+<h2 id="publish-docker-to-dockerhub">Publish Docker to DockerHub</h2>
+<ol style="list-style-type: decimal">
+<li>Go to the root directory containing Dockerfile</li>
+<li>Run <code>docker login</code></li>
+<li>Run <code>docker build -t {repo-name}:{latest/dev/stage/prod} .</code></li>
+<li>Run <code>docker push {repo-name}:{latest/dev/stage/prod}</code></li>
+</ol>
+<h2 id="docker-commands">Docker Commands</h2>
+<p>To update a docker image, please follow publish to Aws or DockerHub</p>
+<h1 id="loading-items">Loading Items</h1>
+<p>The Item Viewer Service supports loading individual items or grouped performance task items. Optional ISAAP accessibility codes may specified to enable accessibility options.</p>
+<h2 id="loading-a-single-item">Loading a Single Item</h2>
+<p>The URL for loading an individual item is mapped to <code>/item/{ItemBank-ItemID}</code>. For example, to load an item with bank 123 and id 5678 the url would be <code>/item/123-5678</code>.</p>
+<h2 id="loading-a-performance-task-item">Loading a Performance Task Item</h2>
+<p>To load a performance task item you need to know the banks and ids for each of the grouped items you wish to load. The URL for loading performance task items is <code>/items?ids=ItemBank-ItemID1,ItemBank-ItemID2,ItemBank-ItemID3</code>. For example, to load a performance task with items 187-1435, 187-1436, and 187-1437 the request would look like <code>/items?ids=187-1435,187-1436,187-1437</code></p>
+<h2 id="optional-scroll-to-item-id">Optional, Scroll to Item Id</h2>
+<p>An optional url parameter can be specified to scroll to a specific item in a performance item result. To scroll to an item, use <code>scrollToId</code> parameter and by setting to <code>{ItemBank-ItemID}</code>. Example <code>/items?ids=187-1435,187-1436,187-1437&amp;scrollToId=187-1436</code></p>
+<h2 id="optional-readonly-mode">Optional, Readonly Mode</h2>
+<p>An optional url parameter can be specified to make the rendered item readonly. By default, readOnly is set to false. To enable readonly, use <code>readOnly</code> parameter and by setting to <code>false</code> or <code>true</code>. Example <code>/items?ids=187-1435&amp;readOnly=true</code></p>
+<h2 id="optional-specifying-accessibility-codes">Optional, Specifying Accessibility Codes</h2>
+<p>The optional accessibility codes are specified using the <code>isaap</code> url parameter. Feature codes are passed as a semicolon separated list. Only the feature code should be included. Feature family is not included. For example, to load the reverse contrast and print size zoom level 1 accessibility options the parameter would look like <code>issap=TDS_CCInvert;TDS_PS_L1</code></p>
+<p>Feature codes with the &quot;&amp;&quot; character should be URL encoded. It is good practice to always URL encode the list of ISAAP codes. For a full list of feature codes please refer to the accessibility feature code <a href="http://www.smarterapp.org/documents/ISAAP-AccessibilityFeatureCodes.pdf">documentation</a>.</p>
+<h2 id="examples">Examples</h2>
+<p>Loading item 187-856 with the yellow on blue color contrast and print zoom level 4 accessibility options.<br />
+<code>http://itemviewerservice.example/item/187-856?isaap=TDS_CCYellowB;TDS_PS_L4</code></p>
+<p>Loading performance task with items 187-1435, 187-1436, and 187-1437, and the yellow on blue color contrast and print zoom level 4 accessibility options.<br />
+<code>http://itemviewerservice.example/items?ids=187-1435,187-1436,187-1437&amp;isaap=TDS_CCYellowB;TDS_PS_L4</code></p>
+<h1 id="summary-of-jmeter-test-results">Summary of JMeter Test Results</h1>
+<h2 id="terminology">Terminology</h2>
+<ul>
+<li>Number of threads: analogous to the number of users</li>
+<li>Ramp up time: How long JMeter will take to start all of the threads.</li>
+<li>Target Requests Per Minute: How many requests JMeter makes per minute.</li>
+<li>Scheduled Runtime: How long the test plan runs for.</li>
+</ul>
+<h2 id="environment">Environment</h2>
+<p>JMeter 3.1 on Ubuntu Server 16 LTS run in non-gui mode. The Item Viewer Service application is running in a docker container limited to 1024 CPU units and 950 MB of memory on a micro Amazon EC2 instance. Each thread is configured to request either item 187-1437 or item 187-2889, and make the Ajax requests associated with loading the item.</p>
+<h2 id="jmeter-requests-vs-browser-requests">JMeter Requests vs Browser Requests</h2>
+<p>JMeter is not a browser. It can measure request times and failures. It will not execute JavaScript. It can not be used to measure page render time.</p>
+<p>To simulate a browser request to the Item Viewer Service the test plan requests the page, as well as performs the Ajax requests made when the page loads. This provides a simulation of the requests a browser would make.</p>
+<h2 id="running-the-test-plan">Running the test plan</h2>
+<p>To run a test plan you can use <code>jmeter -n -t ItemViewerTestPlan.jmx -l testresults.csv</code></p>
+<p>To generate results <code>jmeter -g testresults.csv -o ResultsView</code></p>
+<h2 id="interpreting-results">Interpreting Results</h2>
+<p>Average response time is the average for the load item transaction controllers.</p>
+<h2 id="results">Results</h2>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="14%" />
+<col width="22%" />
+<col width="18%" />
+<col width="19%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Number of Threads</th>
+<th>Ramp-up-time (s)</th>
+<th>Target Requests Per Minute</th>
+<th>Scheduled Runtime (s)</th>
+<th>Avg Response Time (ms)</th>
+<th>Error Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>100</td>
+<td>100</td>
+<td>100</td>
+<td>580</td>
+<td>1222</td>
+<td>0%</td>
+</tr>
+<tr class="even">
+<td>200</td>
+<td>100</td>
+<td>200</td>
+<td>580</td>
+<td>1557</td>
+<td>0%</td>
+</tr>
+<tr class="odd">
+<td>300</td>
+<td>100</td>
+<td>300</td>
+<td>580</td>
+<td>1894</td>
+<td>0%</td>
+</tr>
+</tbody>
+</table>
 </body>
 </html>

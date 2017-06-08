@@ -9,7 +9,6 @@
     //Adding this onto TDS for now so it is available in the dictionary handler.
     var irisUrl = location.href;
     var buttonsLoaded = false;
-    CM.accessibilityEnabled = true;
     // Functions that are used by toolbar buttons
 
     //Calculator
@@ -43,11 +42,24 @@
         }
     };
 
+    var comments = function(ev){
+        var currentPage = ContentManager.getCurrentPage();
+        var currentItem = ContentManager.getCurrentEntity();
+
+        if (currentPage && TDS.Notes && currentItem) {
+            var itemId = getItemId(currentItem);
+            TDS.Notes.open({"id": itemId, "type": TDS.Notes.Types.TextArea});
+        }
+    };
+
 
     // setup cross domain api
     XDM.init(window);
 
+    function isGlobalNotesEnabled(){
+        return TDS.getAccommodationProperties().existsAndNotEquals('Global Notes', 'TDS_GN0');
 
+    }
 
     function getItemId(item) {
         return "I-" + item.bankKey + "-" + item.itemKey;
@@ -114,7 +126,7 @@
         };
     }
 
-    function loadContent(xmlDoc) {
+    function loadContent(xmlDoc, scrollToDiv) {
         if (typeof xmlDoc == 'string') {
             xmlDoc = Util.Xml.parseFromString(xmlDoc);
         }
@@ -138,24 +150,43 @@
             }
         }
 
-        page = CM.createPage(content);
+       var page = CM.createPage(content);
 
         page.render();
         page.once('loaded', function () {
             TDS.Dialog.hideProgress();
             page.show();
-            CM.accessibilityEnabled = false;
             deferred.resolve();
+            if(scrollToDiv) {
+                var el = document.getElementById(scrollToDiv);
+                if(el){
+                    el.scrollIntoView();
+                }
+
+            }
         });
 
-        if(!buttonsLoaded) {
+        ContentManager.onItemEvent("comment", function(ev) {
+            comments(ev);
+        });
+
+        if (TDS.getAccommodationProperties().hasMaskingEnabled()) {
             Blackbox.showButton('btnMask', showMask, true);
-            Blackbox.showButton('btnCalculator', calculatorBtn, true);
-            Blackbox.showButton('btnGlobalNotes', globalNotesBtn, true);
-            buttonsLoaded = true;
         }
-        if (TDS.getAccommodationProperties().getDictionary()) {
+
+        if(isGlobalNotesEnabled()){
+            Blackbox.showButton('btnGlobalNotes', globalNotesBtn, true);
+        }
+        if (TDS.getAccommodationProperties().hasCalculator()) {
+            Blackbox.showButton('btnCalculator', calculatorBtn, true);
+        }
+
+        if (TDS.getAccommodationProperties().isDictionaryEnabled()) {
             Blackbox.showButton('btnDictionary', dictionaryBtn, true);
+        }
+
+        if (TDS.getAccommodationProperties().showItemToolsMenu()) {
+            $(".itemTools").addClass("toolsContainer");
         }
 
         var printSize = CM.getAccProps().getPrintSize();
@@ -187,16 +218,19 @@
         }
     }
 
-    function loadToken(vendorId, token) {
+    function loadToken(vendorId, token, scrollToDivId, readOnly) {
+        if(readOnly === true){
+            CM.setReadOnly(true);
+        }
+        console.log("Readonly value: " + readOnly);
         Messages.set('TDS.WordList.illustration', 'Illustration', 'ENU');
         TDS.Dialog.showProgress();
         var url = irisUrl + '/Pages/API/content/load?id=' + vendorId;
         setAccommodations(token);
         return $.post(url, token, null, 'text').then(function (data) {
-            return loadContent(data);
+            return loadContent(data, scrollToDivId);
         }, function (data) {
-            window.alert("Unable to load item.\n" +
-                "Please make sure you entered the correct bank and item numbers.")
+            console.log("unable to load item");
 
         });
     }

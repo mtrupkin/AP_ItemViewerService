@@ -46,4 +46,9 @@ deploy:
     skip_cleanup: true
     script: ./DeployScripts/app_docker_deploy.sh
     on:
-      branch: feat-iris-3
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/app_docker_deploy.sh
+    on:
+      branch: release-3.2

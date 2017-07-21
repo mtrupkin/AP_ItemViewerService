@@ -4,7 +4,7 @@
 
   <groupId>org.smarterbalanced.itemviewerservice.dal</groupId>
   <artifactId>itemviewerservice.dal</artifactId>
-  <version>1.1.3</version>
+  <version>3.1.0</version>
   <packaging>jar</packaging>
 
   <name>itemviewerservice.dal</name>

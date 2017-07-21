@@ -1,6 +1,6 @@
 language: java
 jdk:
-- oraclejdk7
+- openjdk7
 sudo: required
 
 install: 
@@ -34,22 +34,12 @@ after_success:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ./DeployScripts/code_docker_deploy.sh
-    on:
-      all_branches: true
-  - provider: script
-    skip_cleanup: true
     script: ./DeployScripts/app_docker_deploy.sh
     on:
         tags: true
   - provider: script
     skip_cleanup: true
-    script: ./DeployScripts/app_docker_deploy.sh && ./DeployScripts/ecs_deploy.sh ItemViewerService-prod ItemViewerService-prod
-    on:
-      branch: master
-  - provider: script
-    skip_cleanup: true
-    script: ./DeployScripts/app_docker_deploy.sh && ./DeployScripts/ecs_deploy.sh ItemViewerService-dev ItemViewerService-prod
+    script: ./DeployScripts/app_docker_deploy.sh
     on:
       branch: dev
 

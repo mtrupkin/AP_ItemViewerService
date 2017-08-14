@@ -4,6 +4,8 @@
 
 (function (XDM, CM) {
 
+    var isIrisReady = false;
+
     // we load one page in advance, but we don't want that to cause a cascade of page show/load
     Blackbox.getConfig().preventShowOnLoad = false;
     //Adding this onto TDS for now so it is available in the dictionary handler.
@@ -218,27 +220,63 @@
         }
     }
 
-    function loadToken(vendorId, token, scrollToDivId, readOnly) {
-        if(readOnly === true){
-            CM.setReadOnly(true);
-        }
-        console.log("Readonly value: " + readOnly);
-        Messages.set('TDS.WordList.illustration', 'Illustration', 'ENU');
-        TDS.Dialog.showProgress();
-        var url = irisUrl + '/Pages/API/content/load?id=' + vendorId;
-        setAccommodations(token);
-        return $.post(url, token, null, 'text').then(function (data) {
-            return loadContent(data, scrollToDivId);
-        }, function (data) {
-            console.log("unable to load item");
 
+    function loadToken(vendorId, token, scrollToDivId, readOnly) {
+        var deferred = $.Deferred();
+        blackBoxReady.then(function(){
+            loadContentPromise(vendorId, token)
+                .then(function(value) {
+                    deferred.resolve(value);
+                })
+                .catch(function(error){
+                    var errorMsg = "error: " + error + " with loading token " + token;
+                    console.log(errorMsg);
+                    deferred.reject(errorMsg);
+                }
+            );
         });
+        return deferred;
     }
+
+    
+    var loadContentPromise = function(vendorId, token, scrollToDivId, readOnly){
+        return new Promise(
+            function(resolve, reject ) {
+                Messages.set('TDS.WordList.illustration', 'Illustration', 'ENU');
+                var url = irisUrl + '/Pages/API/content/load?id=' + vendorId;
+                TDS.Dialog.showProgress();
+                if(readOnly === true){
+                    CM.setReadOnly(true);
+                }
+                setAccommodations(token);
+                $.post(url, token, null, 'text').then(function (data) {
+                    loadContent(data, scrollToDivId).then(resolve);
+                }).fail(function (xhr, status, error){
+                    TDS.Dialog.hideProgress();
+                    reject(error);
+                });
+            }
+        );
+    };
+
+    var blackBoxReady = new Promise(
+        function(resolve){
+            if(isIrisReady){
+                resolve(true);
+            }else{
+                Blackbox.events.on('ready', function () {
+                    resolve(true);
+                });
+            }
+        }
+    );
+
 
     XDM.addListener('IRiS:loadToken', loadToken);
 
     Blackbox.events.on('ready', function () {
-        XDM(window.parent).post('IRiS:ready');
+        Blackbox.fireEvent('IRiS:Ready')
+        isIrisReady = true;
     });
 
 })(window.Util.XDM, window.ContentManager);

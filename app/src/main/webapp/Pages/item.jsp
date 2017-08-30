@@ -25,9 +25,6 @@
                 var readOnly = ${readOnly};
                 IRiS.loadToken(vendorId, token, scrollToDivId, readOnly);
             };
-            function irisSetup() {
-                window.Util.XDM.addListener('IRiS:ready', loadItem);
-            };
         </script>
         <style>
             body {
@@ -48,7 +45,7 @@
     </head>
     <body>
         <div class="irisContainer">
-            <iframe id="irisWindow" src="${pageContext.request.contextPath}/" onload="irisSetup()"></iframe>
+            <iframe id="irisWindow" src="${pageContext.request.contextPath}/" onload="loadItem()"></iframe>
         </div>
     </body>
 </html>

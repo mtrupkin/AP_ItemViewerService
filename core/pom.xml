@@ -4,11 +4,14 @@
 
   <groupId>org.smarterbalanced.itemviewerservice.core</groupId>
   <artifactId>itemviewerservice.core</artifactId>
-  <version>3.1.0</version>
   <packaging>jar</packaging>
-
   <name>itemviewerservice.core</name>
-  <url>http://maven.apache.org</url>
+
+  <parent>
+    <groupId>org.smarterbalanced.itemviewerservice</groupId>
+    <artifactId>itemviewerservice</artifactId>
+    <version>3.2.0</version>
+  </parent>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,7 +27,7 @@
     <dependency>
       <groupId>org.smarterbalanced.itemviewerservice.dal</groupId>
       <artifactId>itemviewerservice.dal</artifactId>
-      <version>3.1.0</version>
+      <version>${project.version}</version>
     </dependency>
 
     <!-- JUnit -->

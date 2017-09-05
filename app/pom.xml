@@ -1,22 +1,16 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.smarterbalanced.itemviewerservice.app</groupId>
     <artifactId>itemviewerservice.app</artifactId>
-    <version>3.1.0</version>
     <packaging>war</packaging>
-
     <name>itemviewerservice.app</name>
 
-    <!-- Artifactory for the Smarter Balanced Iris -->
-    <repositories>
-        <repository>
-            <id>org.opentestsystem</id>
-            <name>airdev-releases</name>
-            <url>https://airdev.artifactoryonline.com/airdev/libs-releases-local</url>
-        </repository>
-    </repositories>
+    <parent>
+        <groupId>org.smarterbalanced.itemviewerservice</groupId>
+        <artifactId>itemviewerservice</artifactId>
+        <version>3.2.0</version>
+    </parent>
 
     <!-- Version variables -->
     <properties>
@@ -34,7 +28,7 @@
         <dependency>
             <groupId>org.smarterbalanced.itemviewerservice.core</groupId>
             <artifactId>itemviewerservice.core</artifactId>
-            <version>3.1.0</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Newer version of JNA than is used in Iris
@@ -44,7 +38,6 @@
             <artifactId>jna</artifactId>
             <version>4.2.2</version>
         </dependency>
-
 
         <!-- JUnit-->
         <dependency>
@@ -113,7 +106,7 @@
         <dependency>
             <groupId>org.opentestsystem.delivery</groupId>
             <artifactId>iris</artifactId>
-            <version>3.1.0</version>
+            <version>3.2.0.RELEASE</version>
             <type>war</type>
         </dependency>
     </dependencies>

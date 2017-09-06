@@ -76,5 +76,29 @@
 </h:head>
 <h:body>
 	<div id="testShell"></div>
+	<div id="dialogs">
+
+		<div id="loadingDialog">
+		<span class="border yui-panel"> <span class="container">Loading graphic</span>
+			<div id="loadingMessage" class="bd"></div>
+		</span>
+		</div>
+
+		<div id="dialogContent" class="">
+			<div class="dialogWrapper">
+				<div id="dialogContentHeader">
+					<span id="dialogContentTitle"></span> <span id="dialogContentClose"><a href="#" i18n-content="TestShell.Link.HelpGuide.Close"></a></span>
+				</div>
+
+				<div id="dialogContentFrames"></div>
+
+				<div id="dialogContentControls" class="">
+					<a class="greenBtn" href="#"><span i18n-content="TestShell.Link.CloseTutorial.Yes"></span></a> <a class="redBtn" href="#"><span i18n-content="TestShell.Link.CloseTutorial.No"></span></a> <span
+						class="clear"></span>
+				</div>
+			</div>
+		</div>
+
+	</div>
 </h:body>
 </html>

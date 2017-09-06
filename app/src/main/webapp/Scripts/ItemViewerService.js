@@ -10,6 +10,9 @@
     Blackbox.getConfig().preventShowOnLoad = false;
     //Adding this onto TDS for now so it is available in the dictionary handler.
     var irisUrl = location.href;
+    Blackbox.getConfig().baseUrl = irisUrl;
+    ContentManager.Dialog.urlFrame = "Pages/DialogFrame.aspx";
+
     var buttonsLoaded = false;
     // Functions that are used by toolbar buttons
 

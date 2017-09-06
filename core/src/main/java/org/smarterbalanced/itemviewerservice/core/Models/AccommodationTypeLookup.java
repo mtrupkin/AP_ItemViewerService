@@ -178,6 +178,11 @@ public final class AccommodationTypeLookup {
     //Mute System Volume
     accommodationMap.put("TDS_Mute0", "Mute System Volume");
     accommodationMap.put("TDS_Mute1", "Mute System Volume");
+
+    //Tutorial
+    accommodationMap.put("TDS_T0", "Tutorial");
+    accommodationMap.put("TDS_T1", "Tutorial");
+
   }
 
   /**

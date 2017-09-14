@@ -1,14 +1,13 @@
 language: java
 jdk:
-- oraclejdk7
+- openjdk7
 sudo: required
 
 install: 
   - travis_retry pip install --upgrade pip
   - export PATH=$PATH:$HOME/.local/bin
   - python --version
-  - travis_retry pip install ecs-deploy
-  - travis_retry pip install --user awscli
+ 
 
 services:
  - docker
@@ -34,22 +33,21 @@ after_success:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: ./DeployScripts/code_docker_deploy.sh
-    on:
-      all_branches: true
-  - provider: script
-    skip_cleanup: true
-    script: ./DeployScripts/app_docker_deploy.sh
+    script: ./DeployScripts/code_docker_deploy.sh && ./DeployScripts/app_docker_deploy.sh
     on:
         tags: true
   - provider: script
     skip_cleanup: true
-    script: ./DeployScripts/app_docker_deploy.sh && ./DeployScripts/ecs_deploy.sh ItemViewerService-prod ItemViewerService-prod
+    script: ./DeployScripts/code_docker_deploy.sh && ./DeployScripts/app_docker_deploy.sh
+    on:
+      branch: dev
+  - provider: script
+    skip_cleanup: true
+    script: ./DeployScripts/code_docker_deploy.sh && ./DeployScripts/app_docker_deploy.sh
     on:
       branch: master
   - provider: script
     skip_cleanup: true
-    script: ./DeployScripts/app_docker_deploy.sh && ./DeployScripts/ecs_deploy.sh ItemViewerService-dev ItemViewerService-prod
+    script: ./DeployScripts/code_docker_deploy.sh && ./DeployScripts/app_docker_deploy.sh
     on:
-      branch: dev
-
+      branch: release-3.2

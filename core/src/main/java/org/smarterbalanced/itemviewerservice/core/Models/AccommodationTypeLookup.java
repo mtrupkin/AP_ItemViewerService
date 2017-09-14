@@ -143,6 +143,8 @@ public final class AccommodationTypeLookup {
     accommodationMap.put("Tds_CalcGraphingInv", "Calculator");
     accommodationMap.put("TDS_CalcRegress", "Calculator");
     accommodationMap.put("TDS_CalcSciInv&TDS_CalcGraphingInv&TDS_CalcRegress", "Calculator");
+    accommodationMap.put("TDS_CalcBasic", "Calculator");
+
 
     //Dictionary and Thesaurus
     accommodationMap.put("TDS_Dict0", "Dictionary");
@@ -178,6 +180,11 @@ public final class AccommodationTypeLookup {
     //Mute System Volume
     accommodationMap.put("TDS_Mute0", "Mute System Volume");
     accommodationMap.put("TDS_Mute1", "Mute System Volume");
+
+    //Tutorial
+    accommodationMap.put("TDS_T0", "Tutorial");
+    accommodationMap.put("TDS_T1", "Tutorial");
+
   }
 
   /**

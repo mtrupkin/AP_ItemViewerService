@@ -1,4 +1,8 @@
-FROM osucass/sbtomcat
+FROM tomcat:8.0.45-jre7
+ARG source=content/
+
+WORKDIR /usr/local/tomcat/conf
+COPY context.xml .
 
 WORKDIR /usr/local/tomcat/webapps
 RUN  rm -rf ROOT

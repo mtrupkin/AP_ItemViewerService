@@ -1,7 +1,9 @@
-FROM osucass/sbtomcat
-
+FROM tomcat:8.0.45-jre7
 ARG source=content/
 ARG contentStore=/home/tomcat7/content/
+
+COPY context.xml /usr/local/tomcat/conf
+
 COPY $source $contentStore
 
 WORKDIR /usr/local/tomcat/webapps

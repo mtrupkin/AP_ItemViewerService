@@ -50,4 +50,4 @@ deploy:
     skip_cleanup: true
     script: ./DeployScripts/code_docker_deploy.sh 
     on:
-      branch: feat/docker-tomcat
+      branch: feat-docker-tomcat

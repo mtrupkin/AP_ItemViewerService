@@ -1,8 +1,7 @@
-FROM tomcat:8.0.45-jre7
+FROM tomcat:7-jre7
 ARG source=content/
 
-WORKDIR /usr/local/tomcat/conf
-COPY context.xml .
+COPY context.xml /usr/local/tomcat/conf
 
 WORKDIR /usr/local/tomcat/webapps
 RUN  rm -rf ROOT
